@@ -47,4 +47,5 @@ Allegro *allegro_create();
 status allegro_init(Allegro *allegro);
 void allegro_destroy(Allegro *allegro);
 void allegro_message(Allegro *allegro, AllegroMessages type, char *message);
+void allegro_display_error(Allegro *allegro, status allegro_status);
 void allegro_wait_keypress(ALLEGRO_EVENT_QUEUE *event_queue);

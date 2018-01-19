@@ -34,7 +34,6 @@ status allegro_init(Allegro *allegro) {
 		return STATUS_ERROR_ALLEGRO_DISPLAY;
 	}
 
-
 	allegro->event_queue = al_create_event_queue();
 	if (!allegro->event_queue) {
 		return STATUS_ERROR_ALLEGRO_EVENT_QUEUE;
@@ -45,12 +44,12 @@ status allegro_init(Allegro *allegro) {
 		return STATUS_ERROR_ALLEGRO_TIMER;
 	}
 
-	if (!al_init_font_addon() || !al_init_ttf_addon()) {
-		return STATUS_ERROR_ALLEGRO_FONT;
-	}
-
 	if (!al_init_image_addon()) {
 		return STATUS_ERROR_ALLEGRO_IMAGE;
+	}
+
+	if (!al_init_font_addon() || !al_init_ttf_addon()) {
+		return STATUS_ERROR_ALLEGRO_FONT;
 	}
 
 	allegro->font = al_load_ttf_font(ALLEGRO_FONT_FILE, ALLEGRO_FONT_DEFAULT_SIZE, 0);
@@ -65,6 +64,9 @@ status allegro_init(Allegro *allegro) {
 	if (!al_install_audio()) {
 		return STATUS_ERROR_ALLEGRO_AUDIO;
 	}
+
+	al_clear_to_color(al_color_html(ALLEGRO_COLOR_DARK));
+	al_flip_display();
 
 	al_register_event_source(allegro->event_queue, al_get_keyboard_event_source());
 	al_register_event_source(allegro->event_queue, al_get_display_event_source(allegro->display));
@@ -102,6 +104,33 @@ void allegro_message(Allegro *allegro, AllegroMessages type, char *message) {
 	);
 
 	al_flip_display();
+}
+
+void allegro_display_error(Allegro *allegro, status allegro_status) {
+	if (allegro_status == STATUS_ERROR_ALLEGRO_INIT) {
+		allegro_message(allegro, ALLEGRO_MESSAGE_ERROR, "ERROR INITIALIZING ALLEGRO");
+	}
+	else if (allegro_status == STATUS_ERROR_ALLEGRO_DISPLAY) {
+		allegro_message(allegro, ALLEGRO_MESSAGE_ERROR, "ERROR INITIALIZING THE DISPLAY");
+	}
+	else if (allegro_status == STATUS_ERROR_ALLEGRO_EVENT_QUEUE) {
+		allegro_message(allegro, ALLEGRO_MESSAGE_ERROR, "ERROR INITIALIZING THE EVENT QUEUE");
+	}
+	else if (allegro_status == STATUS_ERROR_ALLEGRO_TIMER) {
+		allegro_message(allegro, ALLEGRO_MESSAGE_ERROR, "ERROR INITIALIZING THE TIMER");
+	}
+	else if (allegro_status == STATUS_ERROR_ALLEGRO_FONT) {
+		allegro_message(allegro, ALLEGRO_MESSAGE_ERROR, "ERROR INITIALIZING THE FONT");
+	}
+	else if (allegro_status == STATUS_ERROR_ALLEGRO_IMAGE) {
+		allegro_message(allegro, ALLEGRO_MESSAGE_ERROR, "ERROR INITIALIZING THE IMAGE ADDOON");
+	}
+	else if (allegro_status == STATUS_ERROR_ALLEGRO_KEYBOARD) {
+		allegro_message(allegro, ALLEGRO_MESSAGE_ERROR, "ERROR INSTALLING THE KEYBOARD");
+	}
+	else if (allegro_status == STATUS_ERROR_ALLEGRO_AUDIO) {
+		allegro_message(allegro, ALLEGRO_MESSAGE_ERROR, "ERROR INSTALLING THE AUDIO ADDON");
+	}
 }
 
 /**
