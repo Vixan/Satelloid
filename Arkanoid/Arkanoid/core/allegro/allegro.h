@@ -31,6 +31,7 @@ typedef enum AllegroMessages {
 	ALLEGRO_MESSAGE_INFO,
 	ALLEGRO_MESSAGE_WARNING
 } AllegroMessages;
+
 static const char *ALLEGRO_COLOR_DARK = "#201a23"; // Raisin Black
 static const char *ALLEGRO_COLOR_ERROR = "#ff1428"; // Rudy
 static const char *ALLEGRO_COLOR_WARNING = "#ffe713"; // Vivid Yellow
@@ -40,7 +41,7 @@ static const float FPS = 60.0;
 static const int SCREEN_WIDTH = 1024;
 static const int SCREEN_HEIGHT = 768;
 static const int WINDOW_MODE = ALLEGRO_NOFRAME;
-static const char *ALLEGRO_FONT_FILE = "./assets/fonts/pixelar.ttf";
+static const char *ALLEGRO_FONT_FILE = "./assets/fonts/hero.ttf";
 static const int ALLEGRO_FONT_DEFAULT_SIZE = 16;
 
 Allegro *allegro_create();

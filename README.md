@@ -63,10 +63,6 @@ Add additional notes about how to deploy this on a live system
 * [Visual Studio Community](https://www.visualstudio.com/vs/community/) - The IDE
 * [Allegro 5](http://liballeg.org/) - The Game Library
 
-## Versioning
-
-I use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://gitlab.com/Vixan/arkanoid/tags). 
-
 ## Authors
 
 * **Duca Vitalie-Alexandru** - *Initial work* - [Vixan](https://gitlab.com/Vixan)
