@@ -12,11 +12,12 @@ status main(int argc, char **argv) {
 	}
 
 	allegro_status = allegro_init(allegro);
-	if (allegro_status != STATUS_OK_ALLEGRO) {
+	if (allegro_status == STATUS_OK_ALLEGRO) {
 		allegro_display_error(allegro, allegro_status);
 		allegro_wait_keypress(allegro->event_queue);
 	}
 
+	allegro_wait_keypress(allegro->event_queue);
 	allegro_destroy(allegro);
 
 	return STATUS_OK_EXIT;

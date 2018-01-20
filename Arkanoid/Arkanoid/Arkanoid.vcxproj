@@ -25,10 +25,16 @@
     <ClInclude Include="core\allegro\allegro.h" />
     <ClInclude Include="globals\status.h" />
     <ClInclude Include="main\main.h" />
+    <ClInclude Include="models\object\object.h" />
+    <ClInclude Include="models\player\player.h" />
+    <ClInclude Include="models\sprite\sprite.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="core\allegro\allegro.c" />
     <ClCompile Include="main\main.c" />
+    <ClCompile Include="models\object\object.c" />
+    <ClCompile Include="models\player\player.c" />
+    <ClCompile Include="models\sprite\sprite.c" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{32433C2F-A73C-46C1-994C-F869B99122B6}</ProjectGuid>

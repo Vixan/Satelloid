@@ -25,7 +25,7 @@ status set_player_sprite(Player *player, Sprite *sprite);
 Sprite *get_player_sprite(Player *player);
 
 status set_player_hp(Player *player, unsigned int hp);
-unsigned int *get_player_hp(Player *player);
+unsigned int get_player_hp(Player *player);
 
 status set_player_score(Player *player, unsigned int score);
-unsigned int *get_player_score(Player *player);
+unsigned int get_player_score(Player *player);

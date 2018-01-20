@@ -97,7 +97,7 @@ status set_player_hp(Player *player, unsigned int hp) {
 /**
 * Retrieve the Player's HP (Hit Points / Lives).
 */
-unsigned int *get_player_hp(Player *player) {
+unsigned int get_player_hp(Player *player) {
 	if (!player) {
 		return PLAYER_HP_DEFAULT;
 	}
@@ -121,7 +121,7 @@ status set_player_score(Player *player, unsigned int score) {
 /**
 * Retrieve the Player's score.
 */
-unsigned int *get_player_score(Player *player) {
+unsigned int get_player_score(Player *player) {
 	if (!player) {
 		return PLAYER_SCORE_DEFAULT;
 	}

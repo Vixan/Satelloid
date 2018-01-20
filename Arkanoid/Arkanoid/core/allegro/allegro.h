@@ -41,8 +41,8 @@ static const float FPS = 60.0;
 static const int SCREEN_WIDTH = 1024;
 static const int SCREEN_HEIGHT = 768;
 static const int WINDOW_MODE = ALLEGRO_NOFRAME;
-static const char *ALLEGRO_FONT_FILE = "./assets/fonts/hero.ttf";
-static const int ALLEGRO_FONT_DEFAULT_SIZE = 16;
+static const char *ALLEGRO_FONT_FILE = "./assets/fonts/prime.otf";
+static const int ALLEGRO_FONT_DEFAULT_SIZE = 48;
 
 Allegro *allegro_create();
 status allegro_init(Allegro *allegro);

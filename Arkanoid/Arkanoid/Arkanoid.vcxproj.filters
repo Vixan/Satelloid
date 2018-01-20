@@ -27,12 +27,30 @@
     <ClInclude Include="main\main.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="models\object\object.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="models\sprite\sprite.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="models\player\player.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="core\allegro\allegro.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="main\main.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="models\object\object.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="models\sprite\sprite.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="models\player\player.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

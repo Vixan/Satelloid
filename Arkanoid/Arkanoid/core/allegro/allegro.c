@@ -107,7 +107,7 @@ void allegro_message(Allegro *allegro, AllegroMessages type, char *message) {
 }
 
 void allegro_display_error(Allegro *allegro, status allegro_status) {
-	if (allegro_status == STATUS_ERROR_ALLEGRO_INIT) {
+	if (allegro_status != STATUS_ERROR_ALLEGRO_INIT) {
 		allegro_message(allegro, ALLEGRO_MESSAGE_ERROR, "ERROR INITIALIZING ALLEGRO");
 	}
 	else if (allegro_status == STATUS_ERROR_ALLEGRO_DISPLAY) {
