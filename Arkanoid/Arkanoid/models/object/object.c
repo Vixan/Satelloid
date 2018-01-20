@@ -1,10 +1,13 @@
 #include "./object.h"
 
 /**
- * Create and return a pointer to a game Object.
+ * Create a game Object.
  */
 Object *create_object(unsigned int x, unsigned int y, unsigned int height, unsigned int width, int direction, unsigned int velocity) {
 	Object *object = malloc(sizeof(Object));
+	if (!object) {
+		return NULL;
+	}
 
 	object->position.x = x;
 	object->position.y = y;
@@ -17,13 +20,29 @@ Object *create_object(unsigned int x, unsigned int y, unsigned int height, unsig
 }
 
 /**
+ * Destroy the game Object and free up the memory used.
+ */
+status destroy_object(Object *object) {
+	if (!object) {
+		return STATUS_ERROR_SETVALUE;
+	}
+
+	free(object);
+
+	return STATUS_OK_SETVALUE;
+}
+
+/**
  * Set the size property of a game Object.
  */
-void set_object_size(Object *object, unsigned int height, unsigned int width) {
-	if (object) {
-		object->size.height = height;
-		object->size.width = width;
+status set_object_size(Object *object, unsigned int height, unsigned int width) {
+	if (!object) {
+		return STATUS_ERROR_SETVALUE;
 	}
+	object->size.height = height;
+	object->size.width = width;
+
+	return STATUS_OK_SETVALUE;
 }
 
 /**
@@ -36,11 +55,14 @@ Size get_object_size(Object *object) {
 /**
 * Set the position property of a game Object.
 */
-void set_object_position(Object *object, unsigned int x, unsigned int y) {
-	if (object) {
-		object->position.x = x;
-		object->position.y = y;
+status set_object_position(Object *object, unsigned int x, unsigned int y) {
+	if (!object) {
+		return STATUS_ERROR_SETVALUE;
 	}
+	object->position.x = x;
+	object->position.y = y;
+
+	return STATUS_OK_SETVALUE;
 }
 
 /**
@@ -53,10 +75,13 @@ Position get_object_position(Object *object) {
 /**
 * Set the direction property of a game Object.
 */
-void set_object_direction(Object *object, int direction) {
-	if (object) {
-		object->direction = direction;
+status set_object_direction(Object *object, int direction) {
+	if (!object) {
+		return STATUS_ERROR_SETVALUE;
 	}
+	object->direction = direction;
+
+	return STATUS_OK_SETVALUE;
 }
 
 /**
@@ -69,10 +94,13 @@ int get_object_direction(Object *object) {
 /**
 * Set the velocity (speed) property of a game Object.
 */
-void set_object_velocity(Object *object, unsigned int velocity) {
-	if (object) {
-		object->velocity = velocity;
+status set_object_velocity(Object *object, unsigned int velocity) {
+	if (!object) {
+		return STATUS_ERROR_SETVALUE;
 	}
+	object->velocity = velocity;
+
+	return STATUS_OK_SETVALUE;
 }
 
 /**
