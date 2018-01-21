@@ -14,6 +14,7 @@ typedef struct Player {
 
 static const unsigned int PLAYER_HP_DEFAULT = 3;
 static const unsigned int PLAYER_SCORE_DEFAULT = 0;
+static const char *PLAYER_IMAGE_DEFAULT_PATH = "./assets/images/player.png";
 
 Player *create_player(Object *object, Sprite *sprite, unsigned int hp, unsigned int score);
 status destroy_player(Player *player);
@@ -29,3 +30,5 @@ unsigned int get_player_hp(Player *player);
 
 status set_player_score(Player *player, unsigned int score);
 unsigned int get_player_score(Player *player);
+
+status draw_player(Player *player, unsigned int current_frame);

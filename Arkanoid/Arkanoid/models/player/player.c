@@ -128,3 +128,23 @@ unsigned int get_player_score(Player *player) {
 
 	return player->score;
 }
+
+/**
+ * Draw the Player's image with the specified animation frame on the screen.
+ */
+status draw_player(Player *player, unsigned int current_frame) {
+	if (!player) {
+		return STATUS_ERROR_SETVALUE;
+	}
+
+	Position player_position = get_object_position(get_player_object(player));
+
+	al_draw_bitmap(
+		get_sprite_image(get_player_sprite(player)),
+		player_position.x, 
+		player_position.y, 
+		0
+	);
+
+	return STATUS_OK_SETVALUE;
+}

@@ -16,10 +16,10 @@ typedef struct Sprite {
 	Frame frame;
 } Sprite;
 
-static unsigned char *SPRITE_IMAGE_DEFAULT = NULL;
-static unsigned int SPRITE_FRAME_MIN_DEFAULT = 0;
-static unsigned int SPRITE_FRAME_MAX_DEFAULT = 8;
-static unsigned int SPRITE_FRAME_CURRENT_DEFAULT = 0;
+static const char *SPRITE_IMAGE_DEFAULT = NULL;
+static const unsigned int SPRITE_FRAME_MIN_DEFAULT = 0;
+static const unsigned int SPRITE_FRAME_MAX_DEFAULT = 8;
+static const unsigned int SPRITE_FRAME_CURRENT_DEFAULT = 0;
 
 Sprite *create_sprite(char *image_path, unsigned int min, unsigned int max, unsigned int current);
 status destroy_sprite(Sprite *sprite);
