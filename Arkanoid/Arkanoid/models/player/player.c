@@ -1,7 +1,7 @@
 #include "./player.h"
 
 /**
- * Create the Player with the specified game Object and Sprite properties
+ * Create the Player with the specified game Object and Sprite properties.
  */
 Player *create_player(Object *object, Sprite *sprite, unsigned int hp, unsigned int score) {
 	Player *player = malloc(sizeof(Player));
@@ -139,10 +139,20 @@ status draw_player(Player *player, unsigned int current_frame) {
 
 	Position player_position = get_object_position(get_player_object(player));
 
-	al_draw_bitmap(
+	al_draw_tinted_scaled_rotated_bitmap_region(
 		get_sprite_image(get_player_sprite(player)),
-		player_position.x, 
-		player_position.y, 
+		0,
+		0,
+		256,
+		256,
+		al_map_rgb(255, 255, 255),
+		0,
+		0,
+		player_position.x,
+		player_position.y,
+		1,
+		1,
+		0,
 		0
 	);
 

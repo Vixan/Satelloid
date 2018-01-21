@@ -25,6 +25,7 @@
     <ClInclude Include="core\allegro\allegro.h" />
     <ClInclude Include="globals\status.h" />
     <ClInclude Include="main\main.h" />
+    <ClInclude Include="models\block\block.h" />
     <ClInclude Include="models\object\object.h" />
     <ClInclude Include="models\player\player.h" />
     <ClInclude Include="models\sprite\sprite.h" />
@@ -32,6 +33,7 @@
   <ItemGroup>
     <ClCompile Include="core\allegro\allegro.c" />
     <ClCompile Include="main\main.c" />
+    <ClCompile Include="models\block\block.c" />
     <ClCompile Include="models\object\object.c" />
     <ClCompile Include="models\player\player.c" />
     <ClCompile Include="models\sprite\sprite.c" />
