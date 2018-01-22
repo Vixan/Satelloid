@@ -141,7 +141,7 @@ status draw_player(Player *player, unsigned int current_frame) {
 
 	al_draw_tinted_scaled_rotated_bitmap_region(
 		get_sprite_image(get_player_sprite(player)),
-		0,
+		PLAYER_WIDTH * current_frame,
 		0,
 		PLAYER_WIDTH,
 		PLAYER_HEIGHT,

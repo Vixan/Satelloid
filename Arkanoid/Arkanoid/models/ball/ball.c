@@ -117,7 +117,7 @@ status draw_ball(Ball *ball, unsigned int current_frame) {
 
 	al_draw_tinted_scaled_rotated_bitmap_region(
 		get_sprite_image(get_ball_sprite(ball)),
-		0,
+		BALL_WIDTH * current_frame,
 		0,
 		BALL_WIDTH,
 		BALL_HEIGHT,

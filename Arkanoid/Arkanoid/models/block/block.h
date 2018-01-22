@@ -14,7 +14,9 @@ typedef struct Block {
 } Block;
 
 static const unsigned int BLOCK_HP_DEFAULT = 1;
-static const char *BLOCK_IMAGE_DEFAULT_PATH = "./assets/images/block.png";
+static const char *BLOCK_IMAGE_DEFAULT_PATH = "./assets/images/block/block.png";
+static const unsigned int BLOCK_HEIGHT = 64;
+static const unsigned int BLOCK_WIDTH = 64;
 
 Block *create_block(Object *object, Sprite *sprite, unsigned int hp);
 status destroy_block(Block *block);
@@ -28,4 +30,4 @@ Sprite *get_block_sprite(Block *block);
 status set_block_hp(Block *block, unsigned int hp);
 unsigned int get_block_hp(Block *block);
 
-status draw_block(Block *block);
+status draw_block(Block *block, unsigned int current_frame);

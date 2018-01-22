@@ -108,12 +108,29 @@ unsigned int get_block_hp(Block *block) {
 /**
  * Draw the Block's image on the screen.
  */
-status draw_block(Block *block) {
+status draw_block(Block *block, unsigned int current_frame) {
 	if (!block) {
 		return STATUS_ERROR_SETVALUE;	
 	}
 
 	Position block_position = get_object_position(get_block_object(block));
+
+	al_draw_tinted_scaled_rotated_bitmap_region(
+		get_sprite_image(get_block_sprite(block)),
+		BLOCK_WIDTH * current_frame,
+		0,
+		BLOCK_WIDTH,
+		BLOCK_HEIGHT,
+		al_map_rgb(255, 255, 255),
+		0,
+		0,
+		block_position.x,
+		block_position.y,
+		1,
+		1,
+		0,
+		0
+	);
 
 	return STATUS_OK_SETVALUE;
 }
