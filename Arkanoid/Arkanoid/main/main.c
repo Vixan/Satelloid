@@ -18,7 +18,7 @@ status main(int argc, char **argv) {
 	}
 
 	Player *player = create_player(
-		create_object(0, 0, 10, 10, OBJECT_DIRECTION_DEFAULT, OBJECT_VELOCITY_DEFAULT),
+		create_object(SCREEN_WIDTH / 2 - 128, SCREEN_HEIGHT - 256, 10, 256, OBJECT_DIRECTION_DEFAULT, OBJECT_VELOCITY_DEFAULT),
 		create_sprite(
 			(char *)PLAYER_IMAGE_DEFAULT_PATH, 
 			(unsigned int)SPRITE_FRAME_MIN_DEFAULT, 
@@ -28,7 +28,18 @@ status main(int argc, char **argv) {
 		PLAYER_SCORE_DEFAULT
 	);
 
-	draw_player(player, 0);
+	Ball *ball = create_ball(
+		create_object(10, 10, 10, 10, OBJECT_DIRECTION_DEFAULT, OBJECT_VELOCITY_DEFAULT),
+		create_sprite(
+		(char *)BALL_IMAGE_DEFAULT_PATH,
+			(unsigned int)SPRITE_FRAME_MIN_DEFAULT,
+			(unsigned int)SPRITE_FRAME_MAX_DEFAULT,
+			(unsigned int)SPRITE_FRAME_CURRENT_DEFAULT),
+		BALL_TYPE_DEFAULT
+	);
+
+	draw_player(player, SPRITE_FRAME_MIN_DEFAULT);
+	draw_ball(ball, SPRITE_FRAME_MIN_DEFAULT);
 	al_flip_display();
 
 	allegro_wait_keypress(allegro->event_queue);
