@@ -38,7 +38,7 @@ static const char *ALLEGRO_COLOR_WARNING = "#ffe713"; // Vivid Yellow
 static const char *ALLEGRO_COLOR_INFO = "#155ad4"; // Denim
 
 static const float FPS = 60.0;
-static const int SCREEN_WIDTH = 1024;
+static const int SCREEN_WIDTH = 1280;
 static const int SCREEN_HEIGHT = 768;
 static const int WINDOW_MODE = ALLEGRO_NOFRAME;
 static const char *ALLEGRO_FONT_FILE = "./assets/fonts/prime.otf";
