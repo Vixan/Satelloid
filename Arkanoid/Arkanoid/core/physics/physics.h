@@ -12,7 +12,8 @@
 #include "../../models/block/block.h"
 #include "../../models/ball/ball.h"
 
-static const int BLOCK_COLLISION_VELOCITY_DECREASE_RATE_DEFAULT = 1;
+static const int BLOCK_COLLISION_VELOCITY_RATE_DEFAULT = 20;
 
 status handle_physics_ball_bounds(Ball *ball);
 status handle_physics_ball_block(Ball *ball, Block *block);
+status handle_physics_ball_player(Ball *ball, Player *player);

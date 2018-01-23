@@ -97,12 +97,13 @@ status main(int argc, char **argv) {
 			if (handle_player_movement(allegro, keys, player) == STATUS_ERROR_SETVALUE) {
 				return STATUS_ERROR_EXIT;
 			}
-			
+
 			handle_physics_ball_bounds(ball);
 			handle_physics_ball_block(ball, block);
+			handle_physics_ball_player(ball, player);
 
 			set_ball_position(
-				ball, 
+				ball,
 				get_ball_position(ball).x + get_ball_direction(ball).x * get_ball_velocity(ball),
 				get_ball_position(ball).y - get_ball_direction(ball).y * get_ball_velocity(ball)
 			);
