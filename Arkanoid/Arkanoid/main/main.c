@@ -29,7 +29,7 @@ status main(int argc, char **argv) {
 		create_sprite(
 		(char *)PLAYER_IMAGE_DEFAULT_PATH,
 			(unsigned int)SPRITE_FRAME_MIN_DEFAULT,
-			(unsigned int)SPRITE_FRAME_MAX_DEFAULT,
+			(unsigned int)PLAYER_SPRITE_MAX,
 			(unsigned int)SPRITE_FRAME_CURRENT_DEFAULT
 		),
 		PLAYER_HP_DEFAULT,

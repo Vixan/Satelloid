@@ -32,7 +32,6 @@ status destroy_block(Block *block) {
 	return STATUS_OK_SETVALUE;
 }
 
-
 /**
 * Set the Block's game Object properties.
 */

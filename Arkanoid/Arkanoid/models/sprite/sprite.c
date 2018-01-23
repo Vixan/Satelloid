@@ -19,6 +19,8 @@ Sprite *create_sprite(char *image_path, unsigned int min, unsigned int max, unsi
 	sprite->frame.min = min;
 	sprite->frame.max = max;
 	sprite->frame.current = current;
+	sprite->frame.count = 0;
+	sprite->frame.column = SPRITE_FRAME_COLUMN_DEFAULT;
 
 	return sprite;
 }
@@ -89,6 +91,7 @@ unsigned int get_sprite_min_frame(Sprite *sprite) {
 	return sprite->frame.min;
 }
 
+
 /**
 * Set the last animation frame index of the Sprite.
 */
@@ -135,4 +138,52 @@ unsigned int get_sprite_current_frame(Sprite *sprite) {
 	}
 
 	return sprite->frame.current;
+}
+
+/**
+* Set the animation frame count.
+*/
+status set_sprite_frame_count(Sprite *sprite, unsigned int count) {
+	if (!sprite) {
+		return STATUS_ERROR_SETVALUE;
+	}
+
+	sprite->frame.count = count;
+
+	return STATUS_OK_SETVALUE;
+}
+
+/**
+* Retrieve the animation frame count.
+*/
+unsigned int get_sprite_frame_count(Sprite *sprite) {
+	if (!sprite) {
+		return SPRITE_FRAME_MIN_DEFAULT;
+	}
+
+	return sprite->frame.count;
+}
+
+/**
+* Set the spritesheet animation column.
+*/
+status set_sprite_frame_column(Sprite *sprite, unsigned int column) {
+	if (!sprite) {
+		return STATUS_ERROR_SETVALUE;
+	}
+
+	sprite->frame.column = column;
+
+	return STATUS_OK_SETVALUE;
+}
+
+/**
+* Retrieve spritesheet animation column.
+*/
+unsigned int get_sprite_frame_column(Sprite *sprite) {
+	if (!sprite) {
+		return SPRITE_FRAME_COLUMN_DEFAULT;
+	}
+
+	return sprite->frame.column;
 }

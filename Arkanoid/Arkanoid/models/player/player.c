@@ -266,11 +266,12 @@ status draw_player(Player *player) {
 	}
 
 	Position player_position = get_player_position(player);
+	unsigned int column = get_sprite_frame_column(get_player_sprite(player));
 
 	al_draw_tinted_scaled_rotated_bitmap_region(
 		get_sprite_image(get_player_sprite(player)),
 		PLAYER_WIDTH * get_player_current_frame(player),
-		0,
+		get_sprite_frame_column(get_player_sprite(player)) * PLAYER_HEIGHT,
 		PLAYER_WIDTH,
 		PLAYER_HEIGHT,
 		al_map_rgb(255, 255, 255),
