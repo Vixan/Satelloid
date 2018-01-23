@@ -1,20 +1,22 @@
 #include "./keyboard.h"
 
 status handle_player_movement(Allegro *allegro, bool keys[], Player *player) {
-	Position player_position = get_object_position(get_player_object(player));
+	Position player_position = get_player_position(player);
+	Size player_size = get_player_size(player);
+	unsigned int player_velocity = get_player_velocity(player);
 
 	if (keys[KEY_UP]) {}
 	if (keys[KEY_DOWN]) {}
 
 	if (keys[KEY_LEFT] && player_position.x >= 4.0) {
-		if (!set_object_position(get_player_object(player), player_position.x - 4, player_position.y)) {
+		if (!set_player_position(player, player_position.x - player_velocity, player_position.y)) {
 			return STATUS_ERROR_SETVALUE;
 		}
 	}
 
-	if (keys[KEY_RIGHT] && player_position.x <= SCREEN_WIDTH - get_object_size(get_player_object(player)).width - 4.0) {
-		if (!set_object_position(get_player_object(player), player_position.x - 4, player_position.y)) {
-			set_object_position(get_player_object(player), player_position.x + 4, player_position.y);
+	if (keys[KEY_RIGHT] && player_position.x <= SCREEN_WIDTH - player_size.width - 4.0) {
+		if (!set_player_position(player, player_position.x + player_velocity, player_position.y)) {
+			return STATUS_ERROR_SETVALUE;
 		}
 	}
 
@@ -22,9 +24,10 @@ status handle_player_movement(Allegro *allegro, bool keys[], Player *player) {
 }
 
 status handle_keyboard(Allegro *allegro, bool keys[], ALLEGRO_EVENT event, Player *player, Ball *ball, Block *block) {
-	draw_player(player, SPRITE_FRAME_MIN_DEFAULT);
+	draw_player(player);
 	draw_ball(ball, SPRITE_FRAME_MIN_DEFAULT);
 	draw_block(block, SPRITE_FRAME_MIN_DEFAULT);
+
 	al_flip_display();
 	al_clear_to_color(al_color_html(ALLEGRO_COLOR_DARK));
 
@@ -72,21 +75,8 @@ status handle_keyboard(Allegro *allegro, bool keys[], ALLEGRO_EVENT event, Playe
 		}
 	}
 	if (event.type == ALLEGRO_EVENT_TIMER) {
-		Position player_position = get_object_position(get_player_object(player));
-
-		if (keys[KEY_UP]) {}
-		if (keys[KEY_DOWN]) {}
-
-		if (keys[KEY_LEFT] && player_position.x >= 4.0) {
-			if (!set_object_position(get_player_object(player), player_position.x - get_object_velocity(get_player_object(player)), player_position.y)) {
-				return STATUS_ERROR_SETVALUE;
-			}
-		}
-
-		if (keys[KEY_RIGHT] && player_position.x <= SCREEN_WIDTH - get_object_size(get_player_object(player)).width - 4.0) {
-			if (!set_object_position(get_player_object(player), player_position.x + get_object_velocity(get_player_object(player)), player_position.y)) {
-				return STATUS_ERROR_SETVALUE;
-			}
+		if (handle_player_movement(allegro, keys, player) == STATUS_ERROR_SETVALUE) {
+			return STATUS_ERROR_EXIT;
 		}
 	}
 	if (event.type == ALLEGRO_EVENT_DISPLAY_CLOSE) {

@@ -38,8 +38,8 @@ status main(int argc, char **argv) {
 
 	Ball *ball = create_ball(
 		create_object(
-			get_object_position(get_player_object(player)).x + PLAYER_WIDTH / 2 - BALL_WIDTH / 2,
-			get_object_position(get_player_object(player)).y - PLAYER_HEIGHT / 2,
+			get_player_position(player).x + PLAYER_WIDTH / 2 - BALL_WIDTH / 2,
+			get_player_position(player).y - PLAYER_HEIGHT / 2,
 			BALL_HEIGHT,
 			BALL_WIDTH,
 			OBJECT_DIRECTION_DEFAULT,

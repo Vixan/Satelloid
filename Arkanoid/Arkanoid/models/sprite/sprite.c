@@ -127,7 +127,7 @@ status set_sprite_current_frame(Sprite *sprite, unsigned int current) {
 }
 
 /**
-* Retrieve the last animation frame index of the Sprite.
+* Retrieve the current animation frame index of the Sprite.
 */
 unsigned int get_sprite_current_frame(Sprite *sprite) {
 	if (!sprite) {
