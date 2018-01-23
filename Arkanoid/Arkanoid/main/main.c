@@ -24,7 +24,7 @@ status main(int argc, char **argv) {
 			PLAYER_HEIGHT,
 			PLAYER_WIDTH,
 			OBJECT_DIRECTION_DEFAULT,
-			OBJECT_VELOCITY_DEFAULT
+			PLAYER_VELOCITY_DEFAULT
 		),
 		create_sprite(
 		(char *)PLAYER_IMAGE_DEFAULT_PATH,
@@ -72,13 +72,22 @@ status main(int argc, char **argv) {
 		BLOCK_HP_DEFAULT
 	);
 
-	draw_player(player, SPRITE_FRAME_MIN_DEFAULT);
-	draw_ball(ball, SPRITE_FRAME_MIN_DEFAULT);
-	draw_block(block, SPRITE_FRAME_MIN_DEFAULT);
+	bool running = true;
+	bool keys[4] = { false, false, false, false };
 
-	al_flip_display();
+	al_start_timer(allegro->timer);
 
-	allegro_wait_keypress(allegro->event_queue);
+	while (running) {
+		ALLEGRO_EVENT event = { .type = ALLEGRO_EVENT_KEY_UP };
+
+		if (handle_keyboard(allegro, keys, event, player, ball, block) == STATUS_OK_EXIT) {
+			return STATUS_OK_EXIT;
+		}
+	}
+
+	destroy_ball(ball);
+	destroy_block(block);
+	destroy_player(player);
 
 	allegro_destroy(allegro);
 

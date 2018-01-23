@@ -22,10 +22,6 @@ typedef struct Allegro {
 	ALLEGRO_FONT *font;
 } Allegro;
 
-const enum ControlKeys {
-	KEY_UP, KEY_DOWN, KEY_LEFT, KEY_RIGHT
-};
-
 typedef enum AllegroMessages {
 	ALLEGRO_MESSAGE_ERROR,
 	ALLEGRO_MESSAGE_INFO,

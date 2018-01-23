@@ -42,6 +42,9 @@
     <ClInclude Include="models\ball\ball.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="core\controllers\keyboard\keyboard.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="core\allegro\allegro.c">
@@ -63,6 +66,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="models\ball\ball.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="core\controllers\keyboard\keyboard.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

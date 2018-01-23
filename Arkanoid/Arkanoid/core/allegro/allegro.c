@@ -39,7 +39,7 @@ status allegro_init(Allegro *allegro) {
 		return STATUS_ERROR_ALLEGRO_EVENT_QUEUE;
 	}
 
-	allegro->timer = al_create_timer(FPS);
+	allegro->timer = al_create_timer(1 / FPS);
 	if (!allegro->timer) {
 		return STATUS_ERROR_ALLEGRO_TIMER;
 	}
@@ -68,10 +68,9 @@ status allegro_init(Allegro *allegro) {
 	al_clear_to_color(al_color_html(ALLEGRO_COLOR_DARK));
 	al_flip_display();
 
-	al_register_event_source(allegro->event_queue, al_get_keyboard_event_source());
 	al_register_event_source(allegro->event_queue, al_get_display_event_source(allegro->display));
 	al_register_event_source(allegro->event_queue, al_get_timer_event_source(allegro->timer));
-	al_start_timer(allegro->timer);
+	al_register_event_source(allegro->event_queue, al_get_keyboard_event_source());
 
 	return STATUS_OK_ALLEGRO;
 }
