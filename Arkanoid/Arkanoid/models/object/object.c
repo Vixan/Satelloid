@@ -3,7 +3,8 @@
 /**
  * Create a game Object.
  */
-Object *create_object(unsigned int x, unsigned int y, unsigned int height, unsigned int width, int direction, unsigned int velocity) {
+Object *create_object(unsigned int x, unsigned int y, unsigned int height, unsigned int width,
+	int dx, int dy, int velocity) {
 	Object *object = malloc(sizeof(Object));
 	if (!object) {
 		return NULL;
@@ -13,7 +14,8 @@ Object *create_object(unsigned int x, unsigned int y, unsigned int height, unsig
 	object->position.y = y;
 	object->size.height = height;
 	object->size.width = width;
-	object->direction = direction;
+	object->direction.x = dx;
+	object->direction.y = dy;
 	object->velocity = velocity;
 
 	return object;
@@ -75,11 +77,12 @@ Position get_object_position(Object *object) {
 /**
 * Set the direction property of a game Object.
 */
-status set_object_direction(Object *object, int direction) {
+status set_object_direction(Object *object, int x, int y) {
 	if (!object) {
 		return STATUS_ERROR_SETVALUE;
 	}
-	object->direction = direction;
+	object->direction.x = x;
+	object->direction.y = y;
 
 	return STATUS_OK_SETVALUE;
 }
@@ -87,14 +90,18 @@ status set_object_direction(Object *object, int direction) {
 /**
 * Retrieve the direction property of a game Object.
 */
-int get_object_direction(Object *object) {
+Direction get_object_direction(Object *object) {
+	if (!object) {
+		return (Direction) { .x = 0, .y = 0 };
+	}
+
 	return object->direction;
 }
 
 /**
 * Set the velocity (speed) property of a game Object.
 */
-status set_object_velocity(Object *object, unsigned int velocity) {
+status set_object_velocity(Object *object, int velocity) {
 	if (!object) {
 		return STATUS_ERROR_SETVALUE;
 	}
@@ -106,6 +113,6 @@ status set_object_velocity(Object *object, unsigned int velocity) {
 /**
 * Retrieve the velocity (speed) property of a game Object.
 */
-unsigned int get_object_velocity(Object *object) {
+int get_object_velocity(Object *object) {
 	return object->velocity;
 }

@@ -23,7 +23,8 @@ status main(int argc, char **argv) {
 			SCREEN_HEIGHT - 1.5 * PLAYER_HEIGHT,
 			PLAYER_HEIGHT,
 			PLAYER_WIDTH,
-			OBJECT_DIRECTION_DEFAULT,
+			0,
+			0,
 			PLAYER_VELOCITY_DEFAULT
 		),
 		create_sprite(
@@ -42,8 +43,9 @@ status main(int argc, char **argv) {
 			get_player_position(player).y - PLAYER_HEIGHT / 2,
 			BALL_HEIGHT,
 			BALL_WIDTH,
-			OBJECT_DIRECTION_DEFAULT,
-			OBJECT_VELOCITY_DEFAULT
+			0,
+			0,
+			BALL_VELOCITY_DEFAULT
 		),
 		create_sprite(
 		(char *)BALL_IMAGE_DEFAULT_PATH,
@@ -60,7 +62,8 @@ status main(int argc, char **argv) {
 			BLOCK_HEIGHT / 2,
 			BLOCK_HEIGHT,
 			BLOCK_WIDTH,
-			OBJECT_DIRECTION_DEFAULT,
+			0,
+			0,
 			OBJECT_VELOCITY_DEFAULT
 		),
 		create_sprite(
@@ -77,10 +80,37 @@ status main(int argc, char **argv) {
 
 	al_start_timer(allegro->timer);
 
+	set_ball_direction(ball, 1, 1);
 	while (running) {
 		ALLEGRO_EVENT event = { .type = ALLEGRO_EVENT_KEY_UP };
 
-		if (handle_keyboard(allegro, keys, event, player, ball, block) == STATUS_OK_EXIT) {
+		draw_player(player);
+		draw_ball(ball, SPRITE_FRAME_MIN_DEFAULT);
+		draw_block(block, SPRITE_FRAME_MIN_DEFAULT);
+
+		al_flip_display();
+		al_clear_to_color(al_color_html(ALLEGRO_COLOR_DARK));
+
+		al_wait_for_event(allegro->event_queue, &event);
+
+		if (event.type == ALLEGRO_EVENT_TIMER) {
+			if (handle_player_movement(allegro, keys, player) == STATUS_ERROR_SETVALUE) {
+				return STATUS_ERROR_EXIT;
+			}
+			
+			handle_physics_ball_bounds(ball);
+			handle_physics_ball_block(ball, block);
+
+			set_ball_position(
+				ball, 
+				get_ball_position(ball).x + get_ball_direction(ball).x * get_ball_velocity(ball),
+				get_ball_position(ball).y - get_ball_direction(ball).y * get_ball_velocity(ball)
+			);
+		}
+		if (event.type == ALLEGRO_EVENT_DISPLAY_CLOSE) {
+			return STATUS_OK_EXIT;
+		}
+		else if (handle_keyboard(allegro, keys, event, player, ball, block) == STATUS_OK_EXIT) {
 			return STATUS_OK_EXIT;
 		}
 	}

@@ -24,6 +24,12 @@ status destroy_block(Block *block);
 status set_block_object(Block *block, Object *object);
 Object *get_block_object(Block *block);
 
+status set_block_position(Block *block, unsigned int x, unsigned int y);
+Position get_block_position(Block *block);
+
+status set_block_size(Block *block, unsigned int height, unsigned int width);
+Size get_block_size(Block *block);
+
 status set_block_sprite(Block *block, Sprite *sprite);
 Sprite *get_block_sprite(Block *block);
 

@@ -56,6 +56,59 @@ Object *get_block_object(Block *block) {
 	return block->object;
 }
 
+
+/**
+* Set the Block's position in X and Y coordinates.
+*/
+status set_block_position(Block *block, unsigned int x, unsigned int y) {
+	if (!block) {
+		return STATUS_ERROR_SETVALUE;
+	}
+
+	if (!set_object_position(get_block_object(block), x, y)) {
+		return STATUS_ERROR_SETVALUE;
+	}
+
+	return STATUS_OK_SETVALUE;
+}
+
+/**
+* Retrieve the Block's position in X and Y coordinates.
+*/
+Position get_block_position(Block *block) {
+	if (!block) {
+		return (Position) { .x = 0, .y = 0 };
+	}
+
+	return get_object_position(get_block_object(block));
+}
+
+/**
+* Set the Block's height and width.
+*/
+status set_block_size(Block *block, unsigned int height, unsigned int width) {
+	if (!block) {
+		return STATUS_ERROR_SETVALUE;
+	}
+
+	if (!set_object_size(get_block_object(block), height, width)) {
+		return STATUS_ERROR_SETVALUE;
+	}
+
+	return STATUS_OK_SETVALUE;
+}
+
+/**
+* Retrieve the Block's height and width.
+*/
+Size get_block_size(Block *block) {
+	if (!block) {
+		return (Size) { .height = 0, .width = 0 };
+	}
+
+	return get_object_size(get_block_object(block));
+}
+
 /**
 * Set the Block's Sprite.
 */

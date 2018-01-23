@@ -58,6 +58,113 @@ Object *get_ball_object(Ball *ball) {
 }
 
 /**
+* Set the Ball's position in X and Y coordinates.
+*/
+status set_ball_position(Ball *ball, unsigned int x, unsigned int y) {
+	if (!ball) {
+		return STATUS_ERROR_SETVALUE;
+	}
+
+	if (!set_object_position(get_ball_object(ball), x, y)) {
+		return STATUS_ERROR_SETVALUE;
+	}
+
+	return STATUS_OK_SETVALUE;
+}
+
+/**
+* Retrieve the Ball's position in X and Y coordinates.
+*/
+Position get_ball_position(Ball *ball) {
+	if (!ball) {
+		return (Position) { .x = 0, .y = 0 };
+	}
+
+	return get_object_position(get_ball_object(ball));
+}
+
+/**
+* Set the Ball's height and width.
+*/
+status set_ball_size(Ball *ball, unsigned int height, unsigned int width) {
+	if (!ball) {
+		return STATUS_ERROR_SETVALUE;
+	}
+
+	if (!set_object_size(get_ball_object(ball), height, width)) {
+		return STATUS_ERROR_SETVALUE;
+	}
+
+	return STATUS_OK_SETVALUE;
+}
+
+/**
+* Retrieve the Ball's height and width.
+*/
+Size get_ball_size(Ball *ball) {
+	if (!ball) {
+		return (Size) { .height = 0, .width = 0 };
+	}
+
+	return get_object_size(get_ball_object(ball));
+}
+
+/**
+* Set the Ball's direction.
+*/
+status set_ball_direction(Ball *ball, int x, int y) {
+	if (!ball) {
+		return STATUS_ERROR_SETVALUE;
+	}
+
+	if (!set_object_direction(get_ball_object(ball), x, y)) {
+		return STATUS_ERROR_SETVALUE;
+	}
+
+	return STATUS_OK_SETVALUE;
+}
+
+/**
+* Retrieve the Ball's direction.
+*/
+Direction get_ball_direction(Ball *ball) {
+	if (!ball) {
+		return (Direction) { .x = 0, .y = 0 };
+	}
+
+	return get_object_direction(get_ball_object(ball));
+}
+
+/**
+* Set the Ball's movement speed.
+*/
+status set_ball_velocity(Ball *ball, int velocity) {
+	if (!ball) {
+		return STATUS_ERROR_SETVALUE;
+	}
+	if (velocity < 0) {
+		velocity = BALL_VELOCITY_MIN;
+	}
+
+	if (!set_object_velocity(get_ball_object(ball), velocity)) {
+		return STATUS_ERROR_SETVALUE;
+	}
+
+	return STATUS_OK_SETVALUE;
+}
+
+/**
+* Retrieve the Ball's movement speed.
+*/
+int get_ball_velocity(Ball *ball) {
+	if (!ball) {
+		return OBJECT_VELOCITY_DEFAULT;
+	}
+
+	return get_object_velocity(get_ball_object(ball));
+}
+
+/**
 * Set the Ball's Sprite.
 */
 status set_ball_sprite(Ball *ball, Sprite *sprite) {

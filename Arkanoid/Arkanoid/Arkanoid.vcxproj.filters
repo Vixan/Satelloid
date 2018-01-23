@@ -45,6 +45,9 @@
     <ClInclude Include="core\controllers\keyboard\keyboard.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="core\physics\physics.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="core\allegro\allegro.c">
@@ -69,6 +72,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="core\controllers\keyboard\keyboard.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="core\physics\physics.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

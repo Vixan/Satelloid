@@ -112,12 +112,12 @@ Size get_player_size(Player *player) {
 /**
 * Set the Player's direction.
 */
-status set_player_direction(Player *player, int direction) {
+status set_player_direction(Player *player, int x, int y) {
 	if (!player) {
 		return STATUS_ERROR_SETVALUE;
 	}
 
-	if (!set_object_direction(get_player_object(player), direction)) {
+	if (!set_object_direction(get_player_object(player), x, y)) {
 		return STATUS_ERROR_SETVALUE;
 	}
 
@@ -127,9 +127,9 @@ status set_player_direction(Player *player, int direction) {
 /**
 * Retrieve the Player's direction.
 */
-int get_player_direction(Player *player) {
+Direction get_player_direction(Player *player) {
 	if (!player) {
-		return OBJECT_DIRECTION_DEFAULT;
+		return (Direction) { .x = 0, .y = 0 };
 	}
 
 	return get_object_direction(get_player_object(player));
@@ -138,7 +138,7 @@ int get_player_direction(Player *player) {
 /**
 * Set the Player's movement speed.
 */
-status set_player_velocity(Player *player, unsigned int velocity) {
+status set_player_velocity(Player *player, int velocity) {
 	if (!player) {
 		return STATUS_ERROR_SETVALUE;
 	}
@@ -153,7 +153,7 @@ status set_player_velocity(Player *player, unsigned int velocity) {
 /**
 * Retrieve the Player's movement speed.
 */
-unsigned int get_player_velocity(Player *player) {
+int get_player_velocity(Player *player) {
 	if (!player) {
 		return OBJECT_VELOCITY_DEFAULT;
 	}

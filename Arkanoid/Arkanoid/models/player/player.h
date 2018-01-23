@@ -32,11 +32,11 @@ Position get_player_position(Player *player);
 status set_player_size(Player *player, unsigned int height, unsigned int width);
 Size get_player_size(Player *player);
 
-status set_player_direction(Player *player, int direction);
-int get_player_direction(Player *player);
+status set_player_direction(Player *player, int x, int y);
+Direction get_player_direction(Player *player);
 
-status set_player_velocity(Player *player, unsigned int velocity);
-unsigned int get_player_velocity(Player *player);
+status set_player_velocity(Player *player, int velocity);
+int get_player_velocity(Player *player);
 
 status set_player_sprite(Player *player, Sprite *sprite);
 Sprite *get_player_sprite(Player *player);
