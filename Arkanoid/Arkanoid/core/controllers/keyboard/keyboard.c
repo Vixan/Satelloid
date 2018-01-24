@@ -11,14 +11,24 @@ status handle_player_movement(Allegro *allegro, bool keys[], Player *player) {
 	if (keys[KEY_DOWN]) {}
 
 	if (keys[KEY_LEFT] && player_position.x >= player_velocity) {
+		set_sprite_frame_column(get_player_sprite(player), 2);
+		set_player_direction(player, -1, get_player_direction(player).y);
+
 		if (!set_player_position(player, player_position.x - player_velocity, player_position.y)) {
 			return STATUS_ERROR_SETVALUE;
 		}
 	}
 	else if (keys[KEY_RIGHT] && player_position.x <= SCREEN_WIDTH - player_size.width - player_velocity) {
+		set_sprite_frame_column(get_player_sprite(player), 1);
+		set_player_direction(player, 1, get_player_direction(player).y);
+
 		if (!set_player_position(player, player_position.x + player_velocity, player_position.y)) {
 			return STATUS_ERROR_SETVALUE;
 		}
+	}
+	else {
+		set_sprite_frame_column(get_player_sprite(player), SPRITE_FRAME_COLUMN_DEFAULT);
+		set_player_direction(player, 0, 0);
 	}
 
 	if (set_sprite_frame_count(get_player_sprite(player), get_sprite_frame_count(get_player_sprite(player)) + 1) == STATUS_ERROR_SETVALUE) {
@@ -82,16 +92,6 @@ status handle_keyboard(Allegro *allegro, bool keys[], ALLEGRO_EVENT event, Playe
 
 		case ALLEGRO_KEY_ESCAPE:
 			return STATUS_OK_EXIT;
-		}
-
-		if (keys[KEY_RIGHT]) {
-			set_sprite_frame_column(get_player_sprite(player), 1);
-		}
-		else if (keys[KEY_LEFT]) {
-			set_sprite_frame_column(get_player_sprite(player), 2);
-		}
-		else {
-			set_sprite_frame_column(get_player_sprite(player), SPRITE_FRAME_COLUMN_DEFAULT);
 		}
 	}
 

@@ -99,13 +99,13 @@ status main(int argc, char **argv) {
 			}
 
 			handle_physics_ball_bounds(ball);
-			handle_physics_ball_block(ball, block);
 			handle_physics_ball_player(ball, player);
+			handle_physics_ball_block(ball, block);
 
 			set_ball_position(
 				ball,
 				get_ball_position(ball).x + get_ball_direction(ball).x * get_ball_velocity(ball),
-				get_ball_position(ball).y - get_ball_direction(ball).y * get_ball_velocity(ball)
+				get_ball_position(ball).y + get_ball_direction(ball).y * get_ball_velocity(ball)
 			);
 		}
 		if (event.type == ALLEGRO_EVENT_DISPLAY_CLOSE) {
