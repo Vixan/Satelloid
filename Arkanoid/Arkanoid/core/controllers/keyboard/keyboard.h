@@ -14,4 +14,4 @@ const enum ControlKeys {
 };
 
 status handle_player_movement(Allegro *allegro, bool keys[], Player *player);
-status handle_keyboard(Allegro *allegro, bool keys[], ALLEGRO_EVENT event, Player *player, Ball *ball, Block *block);
+status handle_keyboard(Allegro *allegro, bool keys[], ALLEGRO_EVENT event, Player *player);

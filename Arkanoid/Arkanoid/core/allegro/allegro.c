@@ -105,6 +105,9 @@ void allegro_message(Allegro *allegro, AllegroMessages type, char *message) {
 	al_flip_display();
 }
 
+/**
+ * Handle the occurred error and display it. 
+ */
 void allegro_display_error(Allegro *allegro, status allegro_status) {
 	if (allegro_status == STATUS_ERROR_ALLEGRO_INIT) {
 		allegro_message(allegro, ALLEGRO_MESSAGE_ERROR, "ERROR INITIALIZING ALLEGRO");

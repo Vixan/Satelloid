@@ -58,24 +58,40 @@ status main(int argc, char **argv) {
 		BALL_TYPE_DEFAULT
 	);
 
-	Block *block = create_block(
-		create_object(
-			SCREEN_WIDTH / 2 - BLOCK_WIDTH / 2,
-			SCREEN_HEIGHT / 2,
-			BLOCK_HEIGHT,
-			BLOCK_WIDTH,
-			0,
-			0,
-			OBJECT_VELOCITY_DEFAULT
-		),
-		create_sprite(
-		(char *)BLOCK_IMAGE_DEFAULT_PATH,
-			(unsigned int)SPRITE_FRAME_MIN_DEFAULT,
-			(unsigned int)SPRITE_FRAME_MAX_DEFAULT,
-			(unsigned int)SPRITE_FRAME_CURRENT_DEFAULT
-		),
-		BLOCK_HP_DEFAULT
-	);
+	unsigned int blocks_max = 5;
+	unsigned int blocks_level = 0;
+	Block **blocks = malloc(sizeof(Block *) * blocks_max);
+
+	for (int i = 0; i < blocks_max; i++) {
+		Block *block = create_block(
+			create_object(
+				0,
+				0,
+				BLOCK_HEIGHT,
+				BLOCK_WIDTH,
+				0,
+				0,
+				OBJECT_VELOCITY_DEFAULT
+			),
+			create_sprite(
+			(char *)BLOCK_IMAGE_DEFAULT_PATH,
+				(unsigned int)SPRITE_FRAME_MIN_DEFAULT,
+				(unsigned int)SPRITE_FRAME_MAX_DEFAULT,
+				(unsigned int)SPRITE_FRAME_CURRENT_DEFAULT
+			),
+			BLOCK_HP_DEFAULT
+		);
+
+		blocks[i] = block;
+		set_block_position(blocks[i], BLOCK_GAP, blocks_level * BLOCK_HEIGHT + BLOCK_HEIGHT);
+		
+	}
+
+	set_block_position(blocks[0], BLOCK_GAP, 2 * BLOCK_HEIGHT);
+	set_block_position(blocks[1], (get_block_position(blocks[1]).x + BLOCK_WIDTH + BLOCK_GAP) + BLOCK_GAP, 2 * BLOCK_HEIGHT);
+	set_block_position(blocks[2], (get_block_position(blocks[2]).x + BLOCK_WIDTH + BLOCK_GAP) * 2 + BLOCK_GAP, 2 * BLOCK_HEIGHT);
+	set_block_position(blocks[3], (get_block_position(blocks[3]).x + BLOCK_WIDTH + BLOCK_GAP) * 3 + BLOCK_GAP, 2 * BLOCK_HEIGHT);
+	set_block_position(blocks[4], (get_block_position(blocks[4]).x + BLOCK_WIDTH + BLOCK_GAP) * 4 + BLOCK_GAP, 2 * BLOCK_HEIGHT);
 
 	bool running = true;
 	bool keys[4] = { false, false, false, false };
@@ -92,8 +108,13 @@ status main(int argc, char **argv) {
 		if (ball) {
 			draw_ball(ball);
 		}
-		if (block) {
-			draw_block(block);
+
+		for (int i = 0; i < blocks_max; i++) {
+			Block *block = *(blocks + i);
+
+			if (block != NULL) {
+				draw_block(block);
+			}
 		}
 
 		al_flip_display();
@@ -112,13 +133,20 @@ status main(int argc, char **argv) {
 			if (ball && player) {
 				handle_physics_ball_player(ball, player);
 			}
-			if (ball && block) {
-				handle_physics_ball_block(ball, block);
+			if (ball && blocks) {
+				for (int i = 0; i < blocks_max; i++) {
+					Block *block = *(blocks + i);
+					if (block) {
+						handle_physics_ball_block(ball, block);
 
-				if (get_block_hp(block) <= 0) {
-					if (animate_block(block)) {
-						block = destroy_block(block);
+						if (get_block_hp(block) <= 0) {
+							if (animate_block(block)) {
+								block = destroy_block(block);
+							}
+						}
 					}
+
+					blocks[i] = block;
 				}
 			}
 
@@ -131,13 +159,19 @@ status main(int argc, char **argv) {
 		if (event.type == ALLEGRO_EVENT_DISPLAY_CLOSE) {
 			return STATUS_OK_EXIT;
 		}
-		else if (handle_keyboard(allegro, keys, event, player, ball, block) == STATUS_OK_EXIT) {
+		else if (handle_keyboard(allegro, keys, event, player) == STATUS_OK_EXIT) {
 			return STATUS_OK_EXIT;
 		}
 	}
 
 	destroy_ball(ball);
-	destroy_block(block);
+
+	for (int i = 0; i < blocks_max; i++) {
+		Block *block = *(blocks + i);
+		destroy_block(block);
+	}
+	free(blocks);
+
 	destroy_player(player);
 
 	allegro_destroy(allegro);

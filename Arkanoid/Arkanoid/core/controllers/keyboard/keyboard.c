@@ -47,7 +47,7 @@ status handle_player_movement(Allegro *allegro, bool keys[], Player *player) {
 	return STATUS_OK_SETVALUE;
 }
 
-status handle_keyboard(Allegro *allegro, bool keys[], ALLEGRO_EVENT event, Player *player, Ball *ball, Block *block) {
+status handle_keyboard(Allegro *allegro, bool keys[], ALLEGRO_EVENT event, Player *player) {
 	if (event.type == ALLEGRO_EVENT_KEY_DOWN) {
 		keys[KEY_LEFT] = false;
 		keys[KEY_RIGHT] = false;

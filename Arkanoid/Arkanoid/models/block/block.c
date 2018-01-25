@@ -165,7 +165,6 @@ unsigned int get_block_current_frame(Block *block) {
  * Run the animation of the Block when destroyed.
  */
 bool animate_block(Block *block) {
-	unsigned int frame_delay = 4;
 	unsigned int frame_max = get_sprite_max_frame(get_block_sprite(block));
 
 	if (get_sprite_current_frame(get_block_sprite(block)) >= frame_max) {
@@ -173,7 +172,7 @@ bool animate_block(Block *block) {
 	}
 
 	set_sprite_frame_count(get_block_sprite(block), get_sprite_frame_count(get_block_sprite(block)) + 1);
-	if (get_sprite_frame_count(get_block_sprite(block)) >= frame_delay) {
+	if (get_sprite_frame_count(get_block_sprite(block)) >= BLOCK_ANIMATION_DELAY) {
 		set_block_current_frame(block, get_block_current_frame(block) + 1);
 
 		set_sprite_frame_count(get_block_sprite(block), SPRITE_FRAME_CURRENT_DEFAULT);
