@@ -59,7 +59,7 @@ status main(int argc, char **argv) {
 	Block *block = create_block(
 		create_object(
 			SCREEN_WIDTH / 2 - BLOCK_WIDTH / 2,
-			BLOCK_HEIGHT / 2,
+			SCREEN_HEIGHT / 2,
 			BLOCK_HEIGHT,
 			BLOCK_WIDTH,
 			0,

@@ -60,10 +60,10 @@ status handle_physics_ball_block(Ball *ball, Block *block) {
 	Position block_position = get_block_position(block);
 	Size block_size = get_block_size(block);
 
-	bool bottom_collision = (ball_position.x >= block_position.x) && (ball_position.x <= block_position.x + block_size.width) && (ball_position.y <= block_position.y + block_size.height);
-	bool top_collision = (ball_position.x >= block_position.x) && (ball_position.x <= block_position.x + block_size.width) && (ball_position.y >= block_position.y);
-	bool left_collision = (ball_position.y >= block_position.y) && (ball_position.y <= block_position.y + block_size.height) && (ball_position.x + ball_size.width >= block_position.x);
-	bool right_collision = (ball_position.y >= block_position.y) && (ball_position.y <= block_position.y + block_size.height) && (ball_position.x <= block_position.x + block_size.width);
+	bool bottom_collision = ball_position.y <= block_position.y + block_size.height;
+	bool top_collision = ball_position.y + ball_size.height >= block_position.y;
+	bool left_collision = ball_position.x + ball_size.width <= block_position.x;
+	bool right_collision = ball_position.x >= block_position.x + block_size.width;
 
 	if (objects_overlap(get_ball_object(ball), get_block_object(block))) {
 		if (bottom_collision) {
@@ -74,11 +74,11 @@ status handle_physics_ball_block(Ball *ball, Block *block) {
 			set_ball_direction(ball, ball_direction.x, -ball_direction.y);
 		}
 
-		if (!bottom_collision && !top_collision && right_collision) {
+		if (right_collision) {
 			set_ball_direction(ball, -ball_direction.x, ball_direction.y);
 		}
 
-		if (!bottom_collision && !top_collision && left_collision) {
+		if (left_collision) {
 			set_ball_direction(ball, -ball_direction.x, ball_direction.y);
 		}
 	}
@@ -97,9 +97,20 @@ status handle_physics_ball_player(Ball *ball, Player *player) {
 
 	bool top_collision = (ball_position.y + ball_size.height >= player_position.y);
 
+	bool left_collision = ball_position.x + ball_size.width <= player_position.x;
+	bool right_collision = ball_position.x >= player_position.x + player_size.width;
+
 	if (objects_overlap(get_ball_object(ball), get_block_object(player))) {
 		if (top_collision) {
 			set_ball_direction(ball, ball_direction.x, -ball_direction.y);
+		}
+
+		if (right_collision) {
+			set_ball_direction(ball, -ball_direction.x, ball_direction.y);
+		}
+
+		if (left_collision) {
+			set_ball_direction(ball, -ball_direction.x, ball_direction.y);
 		}
 	}
 
