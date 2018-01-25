@@ -32,7 +32,6 @@ status destroy_ball(Ball *ball) {
 	return STATUS_OK_SETVALUE;
 }
 
-
 /**
 * Set the Ball's game Object properties.
 */
@@ -189,6 +188,30 @@ Sprite *get_ball_sprite(Ball *ball) {
 }
 
 /**
+* Set the current animation frame index of the Ball's sprite.
+*/
+status set_ball_current_frame(Ball *ball, unsigned int current) {
+	if (!ball) {
+		return STATUS_ERROR_SETVALUE;
+	}
+
+	set_sprite_current_frame(get_ball_sprite(ball), current);
+
+	return STATUS_OK_SETVALUE;
+}
+
+/**
+* Retrieve the current animation frame index of the Ball's sprite.
+*/
+unsigned int get_ball_current_frame(Ball *ball) {
+	if (!ball) {
+		return SPRITE_FRAME_MAX_DEFAULT;
+	}
+
+	return get_sprite_current_frame(get_ball_sprite(ball));
+}
+
+/**
 * Set the Ball's type.
 */
 status set_ball_type(Ball *ball, unsigned int type) {
@@ -215,7 +238,7 @@ unsigned int get_ball_type(Ball *ball) {
 /**
 * Draw the Ball's image with the specified animation frame on the screen.
 */
-status draw_ball(Ball *ball, unsigned int current_frame) {
+status draw_ball(Ball *ball) {
 	if (!ball) {
 		return STATUS_ERROR_SETVALUE;
 	}
@@ -224,7 +247,7 @@ status draw_ball(Ball *ball, unsigned int current_frame) {
 
 	al_draw_tinted_scaled_rotated_bitmap_region(
 		get_sprite_image(get_ball_sprite(ball)),
-		BALL_WIDTH * current_frame,
+		BALL_WIDTH * get_ball_current_frame(ball),
 		0,
 		BALL_WIDTH,
 		BALL_HEIGHT,

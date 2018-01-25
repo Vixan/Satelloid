@@ -71,6 +71,9 @@ status set_object_position(Object *object, unsigned int x, unsigned int y) {
 * Retrieve the position property of a game Object.
 */
 Position get_object_position(Object *object) {
+	if (!object) {
+		return (Position) { .x = 0, .y = 0 };
+	}
 	return object->position;
 }
 

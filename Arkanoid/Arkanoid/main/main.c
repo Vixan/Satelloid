@@ -8,6 +8,8 @@ status main(int argc, char **argv) {
 	status allegro_status = STATUS_OK_ALLEGRO;
 
 	if (!allegro) {
+		printf("Could not initialize Allegro");
+		_getch();
 		return STATUS_ERROR_EXIT;
 	}
 
@@ -84,9 +86,15 @@ status main(int argc, char **argv) {
 	while (running) {
 		ALLEGRO_EVENT event = { .type = ALLEGRO_EVENT_KEY_UP };
 
-		draw_player(player);
-		draw_ball(ball, SPRITE_FRAME_MIN_DEFAULT);
-		draw_block(block, SPRITE_FRAME_MIN_DEFAULT);
+		if (player) {
+			draw_player(player);
+		}
+		if (ball) {
+			draw_ball(ball);
+		}
+		if (block) {
+			draw_block(block);
+		}
 
 		al_flip_display();
 		al_clear_to_color(al_color_html(ALLEGRO_COLOR_DARK));
@@ -98,9 +106,21 @@ status main(int argc, char **argv) {
 				return STATUS_ERROR_EXIT;
 			}
 
-			handle_physics_ball_bounds(ball);
-			handle_physics_ball_player(ball, player);
-			handle_physics_ball_block(ball, block);
+			if (ball) {
+				handle_physics_ball_bounds(ball);
+			}
+			if (ball && player) {
+				handle_physics_ball_player(ball, player);
+			}
+			if (ball && block) {
+				handle_physics_ball_block(ball, block);
+
+				if (get_block_hp(block) <= 0) {
+					if (animate_block(block)) {
+						block = destroy_block(block);
+					}
+				}
+			}
 
 			set_ball_position(
 				ball,

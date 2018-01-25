@@ -1,10 +1,16 @@
 #include "./physics.h"
 #include "./physics.h"
 
+/**
+ * Check if the tested value is in a certain numeric range.
+ */
 bool value_in_range(int value, int min, int max) {
 	return (value >= min) && (value <= max);
 }
 
+/**
+ * Check if two Game Objects overlap.
+ */
 bool objects_overlap(Object *object1, Object *object2) {
 	Position object1_position = get_object_position(object1);
 	Position object2_position = get_object_position(object2);
@@ -20,6 +26,9 @@ bool objects_overlap(Object *object1, Object *object2) {
 	return x_overlap && y_overlap;
 }
 
+/**
+ * Keep the Ball always in bounds.
+ */
 status handle_physics_ball_bounds(Ball *ball) {
 	Direction ball_direction = get_ball_direction(ball);
 	Position ball_position = get_ball_position(ball);
@@ -52,6 +61,9 @@ status handle_physics_ball_bounds(Ball *ball) {
 	return STATUS_OK_SETVALUE;
 }
 
+/**
+ * Handle the collision of the Ball with a Block.
+ */
 status handle_physics_ball_block(Ball *ball, Block *block) {
 	Direction ball_direction = get_ball_direction(ball);
 	Position ball_position = get_ball_position(ball);
@@ -60,12 +72,16 @@ status handle_physics_ball_block(Ball *ball, Block *block) {
 	Position block_position = get_block_position(block);
 	Size block_size = get_block_size(block);
 
+	bool collision_detected = objects_overlap(get_ball_object(ball), get_block_object(block));
+
 	bool bottom_collision = ball_position.y <= block_position.y + block_size.height;
 	bool top_collision = ball_position.y + ball_size.height >= block_position.y;
 	bool left_collision = ball_position.x + ball_size.width <= block_position.x;
 	bool right_collision = ball_position.x >= block_position.x + block_size.width;
 
-	if (objects_overlap(get_ball_object(ball), get_block_object(block))) {
+	if (collision_detected) {
+		set_block_hp(block, get_block_hp(block) - 1);
+
 		if (bottom_collision) {
 			set_ball_direction(ball, ball_direction.x, -ball_direction.y);
 		}
@@ -86,6 +102,9 @@ status handle_physics_ball_block(Ball *ball, Block *block) {
 	return STATUS_OK_SETVALUE;
 }
 
+/**
+ * Handle collision of the Ball with the Player (Paddle).
+ */
 status handle_physics_ball_player(Ball *ball, Player *player) {
 	Direction ball_direction = get_ball_direction(ball);
 	Position ball_position = get_ball_position(ball);
@@ -100,7 +119,7 @@ status handle_physics_ball_player(Ball *ball, Player *player) {
 	bool left_collision = ball_position.x + ball_size.width <= player_position.x;
 	bool right_collision = ball_position.x >= player_position.x + player_size.width;
 
-	if (objects_overlap(get_ball_object(ball), get_block_object(player))) {
+	if (objects_overlap(get_ball_object(ball), get_player_object(player))) {
 		if (top_collision) {
 			set_ball_direction(ball, ball_direction.x, -ball_direction.y);
 		}

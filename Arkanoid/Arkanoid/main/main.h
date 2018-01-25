@@ -1,5 +1,8 @@
 #pragma once
 
+#include <stdio.h>
+#include <conio.h>
+
 #include "../globals/status.h"
 #include "../core/allegro/allegro.h"
 #include "../models/player/player.h"

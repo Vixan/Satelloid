@@ -178,7 +178,7 @@ status set_player_sprite(Player *player, Sprite *sprite) {
 * Retrieve the Player's Sprite.
 */
 Sprite *get_player_sprite(Player *player) {
-	if (!player || !player->sprite) {
+	if (!player->sprite) {
 		return NULL;
 	}
 

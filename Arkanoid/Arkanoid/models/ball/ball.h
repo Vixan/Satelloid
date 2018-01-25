@@ -42,7 +42,10 @@ int get_ball_velocity(Ball *ball);
 status set_ball_sprite(Ball *ball, Sprite *sprite);
 Sprite *get_ball_sprite(Ball *ball);
 
+status set_ball_current_frame(Ball *ball, unsigned int current);
+unsigned int get_ball_current_frame(Ball *ball);
+
 status set_ball_type(Ball *ball, unsigned int type);
 unsigned int get_ball_type(Ball *ball);
 
-status draw_ball(Ball *ball, unsigned int current_frame);
+status draw_ball(Ball *ball);

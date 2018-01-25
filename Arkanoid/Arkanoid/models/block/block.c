@@ -19,9 +19,9 @@ Block *create_block(Object *object, Sprite *sprite, unsigned int hp) {
 /**
 * Destroy the Block and free up the memory used.
 */
-status destroy_block(Block *block) {
+Block *destroy_block(Block *block) {
 	if (!block) {
-		return STATUS_ERROR_SETVALUE;
+		return NULL;
 	}
 
 	free(block->object);
@@ -29,7 +29,11 @@ status destroy_block(Block *block) {
 	free(block->sprite);
 	free(block);
 
-	return STATUS_OK_SETVALUE;
+	block->object = NULL;
+	block->sprite = NULL;
+	block = NULL;
+
+	return block;
 }
 
 /**
@@ -126,11 +130,56 @@ status set_block_sprite(Block *block, Sprite *sprite) {
 * Retrieve the Block's Sprite.
 */
 Sprite *get_block_sprite(Block *block) {
-	if (!block || !block->sprite) {
+	if (!block->sprite) {
 		return NULL;
 	}
 
 	return block->sprite;
+}
+
+/**
+* Set the current animation frame index of the Block's sprite.
+*/
+status set_block_current_frame(Block *block, unsigned int current) {
+	if (!block) {
+		return STATUS_ERROR_SETVALUE;
+	}
+
+	set_sprite_current_frame(get_block_sprite(block), current);
+
+	return STATUS_OK_SETVALUE;
+}
+
+/**
+* Retrieve the current animation frame index of the Block's sprite.
+*/
+unsigned int get_block_current_frame(Block *block) {
+	if (!block) {
+		return SPRITE_FRAME_MAX_DEFAULT;
+	}
+
+	return get_sprite_current_frame(get_block_sprite(block));
+}
+
+/**
+ * Run the animation of the Block when destroyed.
+ */
+bool animate_block(Block *block) {
+	unsigned int frame_delay = 4;
+	unsigned int frame_max = get_sprite_max_frame(get_block_sprite(block));
+
+	if (get_sprite_current_frame(get_block_sprite(block)) >= frame_max) {
+		return true;
+	}
+
+	set_sprite_frame_count(get_block_sprite(block), get_sprite_frame_count(get_block_sprite(block)) + 1);
+	if (get_sprite_frame_count(get_block_sprite(block)) >= frame_delay) {
+		set_block_current_frame(block, get_block_current_frame(block) + 1);
+
+		set_sprite_frame_count(get_block_sprite(block), SPRITE_FRAME_CURRENT_DEFAULT);
+	}
+
+	return false;
 }
 
 /**
@@ -160,16 +209,16 @@ unsigned int get_block_hp(Block *block) {
 /**
  * Draw the Block's image on the screen.
  */
-status draw_block(Block *block, unsigned int current_frame) {
+status draw_block(Block *block) {
 	if (!block) {
-		return STATUS_ERROR_SETVALUE;	
+		return STATUS_ERROR_SETVALUE;
 	}
 
 	Position block_position = get_object_position(get_block_object(block));
 
 	al_draw_tinted_scaled_rotated_bitmap_region(
 		get_sprite_image(get_block_sprite(block)),
-		BLOCK_WIDTH * current_frame,
+		BLOCK_WIDTH * get_block_current_frame(block),
 		0,
 		BLOCK_WIDTH,
 		BLOCK_HEIGHT,

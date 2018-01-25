@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <allegro5/allegro.h>
 
+#include "../../core/allegro/allegro.h"
 #include "../../globals/status.h"
 #include "../object/object.h"
 #include "../sprite/sprite.h"
@@ -19,7 +20,7 @@ static const unsigned int BLOCK_HEIGHT = 64;
 static const unsigned int BLOCK_WIDTH = 64;
 
 Block *create_block(Object *object, Sprite *sprite, unsigned int hp);
-status destroy_block(Block *block);
+Block *destroy_block(Block *block);
 
 status set_block_object(Block *block, Object *object);
 Object *get_block_object(Block *block);
@@ -33,7 +34,12 @@ Size get_block_size(Block *block);
 status set_block_sprite(Block *block, Sprite *sprite);
 Sprite *get_block_sprite(Block *block);
 
+status set_block_current_frame(Block *block, unsigned int current);
+unsigned int get_block_current_frame(Block *block);
+
+bool animate_block(Block *block);
+
 status set_block_hp(Block *block, unsigned int hp);
 unsigned int get_block_hp(Block *block);
 
-status draw_block(Block *block, unsigned int current_frame);
+status draw_block(Block *block);
