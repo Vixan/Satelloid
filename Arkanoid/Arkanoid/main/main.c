@@ -58,8 +58,23 @@ status main(int argc, char **argv) {
 		BALL_TYPE_DEFAULT
 	);
 
-	unsigned int blocks_max = 5;
-	unsigned int blocks_level = 0;
+	enum BLOCKS_LAYOUT { ROWS = 4, COLS = 16 };
+	bool blocks_level[ROWS][COLS] = {
+		{ 1, 1, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1 },
+		{ 1, 1, 1, 1, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0, 1, 1 },
+		{ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1 },
+		{ 0, 1, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 1 }
+	};
+	unsigned int blocks_max = 0;
+
+	for (int i = 0; i < ROWS; i++) {
+		for (int j = 0; j < COLS; j++) {
+			if (blocks_level[i][j]) {
+				blocks_max++;
+			}
+		}
+	}
+
 	Block **blocks = malloc(sizeof(Block *) * blocks_max);
 
 	for (int i = 0; i < blocks_max; i++) {
@@ -83,15 +98,21 @@ status main(int argc, char **argv) {
 		);
 
 		blocks[i] = block;
-		set_block_position(blocks[i], BLOCK_GAP, blocks_level * BLOCK_HEIGHT + BLOCK_HEIGHT);
-		
 	}
 
-	set_block_position(blocks[0], BLOCK_GAP, 2 * BLOCK_HEIGHT);
-	set_block_position(blocks[1], (get_block_position(blocks[1]).x + BLOCK_WIDTH + BLOCK_GAP) + BLOCK_GAP, 2 * BLOCK_HEIGHT);
-	set_block_position(blocks[2], (get_block_position(blocks[2]).x + BLOCK_WIDTH + BLOCK_GAP) * 2 + BLOCK_GAP, 2 * BLOCK_HEIGHT);
-	set_block_position(blocks[3], (get_block_position(blocks[3]).x + BLOCK_WIDTH + BLOCK_GAP) * 3 + BLOCK_GAP, 2 * BLOCK_HEIGHT);
-	set_block_position(blocks[4], (get_block_position(blocks[4]).x + BLOCK_WIDTH + BLOCK_GAP) * 4 + BLOCK_GAP, 2 * BLOCK_HEIGHT);
+	for (int q = 0; q < blocks_max; ) {
+		for (int i = 0; i < ROWS; i++) {
+			for (int j = 0; j < COLS; j++) {
+				if (blocks_level[i][j]) {
+					set_block_position(
+						blocks[q],
+						BLOCK_WIDTH * j + j * BLOCK_GAP + BLOCK_GAP / 2,
+						BLOCK_HEIGHT * i + i * BLOCK_GAP + BLOCK_GAP);
+					q++;
+				}
+			}
+		}
+	}
 
 	bool running = true;
 	bool keys[4] = { false, false, false, false };
@@ -133,20 +154,17 @@ status main(int argc, char **argv) {
 			if (ball && player) {
 				handle_physics_ball_player(ball, player);
 			}
-			if (ball && blocks) {
+			if (ball) {
 				for (int i = 0; i < blocks_max; i++) {
-					Block *block = *(blocks + i);
-					if (block) {
-						handle_physics_ball_block(ball, block);
+					if (blocks[i]) {
+						handle_physics_ball_block(ball, blocks[i]);
 
-						if (get_block_hp(block) <= 0) {
-							if (animate_block(block)) {
-								block = destroy_block(block);
+						if (get_block_hp(blocks[i]) <= 0) {
+							if (get_block_hp(blocks[i]) == 0 && animate_block(blocks[i])) {
+								blocks[i] = destroy_block(blocks[i]);
 							}
 						}
 					}
-
-					blocks[i] = block;
 				}
 			}
 

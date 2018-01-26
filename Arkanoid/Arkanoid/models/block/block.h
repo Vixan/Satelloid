@@ -19,7 +19,7 @@ static const char *BLOCK_IMAGE_DEFAULT_PATH = "./assets/images/block/block.png";
 static const unsigned int BLOCK_HEIGHT = 64;
 static const unsigned int BLOCK_WIDTH = 64;
 static const unsigned int BLOCK_ANIMATION_DELAY = 2;
-static const unsigned int BLOCK_GAP = 8;
+static const unsigned int BLOCK_GAP = 16;
 
 Block *create_block(Object *object, Sprite *sprite, unsigned int hp);
 Block *destroy_block(Block *block);
