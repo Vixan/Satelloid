@@ -13,4 +13,5 @@
 #include "../core/level/level.h"
 #include "../core/menu/menu.h"
 
+status show_menu(Allegro *allegro);
 status start_game(Allegro *allegro);

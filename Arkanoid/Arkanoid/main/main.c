@@ -19,18 +19,29 @@ status main(int argc, char **argv) {
 		allegro_wait_keypress(allegro->event_queue);
 	}
 
+	show_menu(allegro);
+
+	allegro_destroy(allegro);
+
+	return STATUS_OK_EXIT;
+}
+
+/**
+ * Go to the Main Menu.
+ */
+status show_menu(Allegro *allegro) {
 	int selected = false;
 	int menu_choice = MENU_NONE;
 
 	while (menu_choice != MENU_EXIT) {
 		menu_choice = handle_menu(allegro);
 		if (menu_choice == MENU_START) {
-			start_game(allegro);
+			if (start_game(allegro) == STATUS_ERROR_EXIT) {
+				return STATUS_ERROR_EXIT;
+			}
 			break;
 		}
 	}
-
-	allegro_destroy(allegro);
 
 	return STATUS_OK_EXIT;
 }
@@ -148,7 +159,10 @@ status start_game(Allegro *allegro) {
 			return STATUS_OK_EXIT;
 		}
 		else if (handle_keyboard(allegro, keys, event, player) == STATUS_OK_EXIT) {
-			return STATUS_OK_EXIT;
+			//return STATUS_OK_EXIT;
+			if (show_menu(allegro) == STATUS_OK_EXIT) {
+				return STATUS_OK_EXIT;
+			}
 		}
 	}
 

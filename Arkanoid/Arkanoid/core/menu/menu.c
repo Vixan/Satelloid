@@ -1,8 +1,8 @@
 #include "./menu.h"
 
-status display_title(Allegro *allegro) {
-
-}
+//status display_title(Allegro *allegro) {
+//
+//}
 
 /**
  * Display Main Menu options.
@@ -26,15 +26,29 @@ status display_menu(Allegro *allegro, int choice) {
 		);
 	}
 
+	ALLEGRO_FONT *font = al_load_ttf_font(ALLEGRO_FONT_FILE, ALLEGRO_FONT_SIZE_SMALL, 0);
+	al_draw_text(
+		font,
+		al_color_html(ALLEGRO_COLOR_DEFAULT),
+		2 * ALLEGRO_FONT_SIZE_SMALL,
+		SCREEN_HEIGHT - 2 * ALLEGRO_FONT_SIZE_SMALL,
+		ALLEGRO_ALIGN_LEFT, "Satelloid, v.1.0.0"
+	);
+
 	ALLEGRO_BITMAP *player_image = al_load_bitmap(PLAYER_IMAGE_DEFAULT_PATH);
+	if (!player_image) {
+		return STATUS_ERROR_SETVALUE;
+	}
 	al_draw_tinted_scaled_rotated_bitmap_region(
 		player_image, 0, 0, PLAYER_WIDTH, PLAYER_HEIGHT, al_map_rgb(255, 255, 255), 0, 0,
 		SCREEN_WIDTH / 2 + PLAYER_WIDTH / 2, SCREEN_HEIGHT - 1.5 * PLAYER_HEIGHT, ALLEGRO_SCALE_DEFAULT, ALLEGRO_SCALE_DEFAULT, 0, 0
 	);
 
+
 	al_flip_display();
 
 	al_destroy_bitmap(player_image);
+	al_destroy_font(font);
 
 	return STATUS_OK_SETVALUE;
 }
@@ -74,6 +88,7 @@ int handle_menu(Allegro *allegro) {
 	}
 
 	al_stop_timer(allegro->timer);
+	al_shutdown_font_addon();
 
 	return selected;
 }
