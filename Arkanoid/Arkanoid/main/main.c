@@ -58,61 +58,11 @@ status main(int argc, char **argv) {
 		BALL_TYPE_DEFAULT
 	);
 
-	enum BLOCKS_LAYOUT { ROWS = 4, COLS = 16 };
-	bool blocks_level[ROWS][COLS] = {
-		{ 1, 1, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1 },
-		{ 1, 1, 1, 1, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0, 1, 1 },
-		{ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1 },
-		{ 0, 1, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 1 }
-	};
-	unsigned int blocks_max = 0;
-
-	for (int i = 0; i < ROWS; i++) {
-		for (int j = 0; j < COLS; j++) {
-			if (blocks_level[i][j]) {
-				blocks_max++;
-			}
-		}
-	}
-
-	Block **blocks = malloc(sizeof(Block *) * blocks_max);
-
-	for (int i = 0; i < blocks_max; i++) {
-		Block *block = create_block(
-			create_object(
-				0,
-				0,
-				BLOCK_HEIGHT,
-				BLOCK_WIDTH,
-				0,
-				0,
-				OBJECT_VELOCITY_DEFAULT
-			),
-			create_sprite(
-			(char *)BLOCK_IMAGE_DEFAULT_PATH,
-				(unsigned int)SPRITE_FRAME_MIN_DEFAULT,
-				(unsigned int)SPRITE_FRAME_MAX_DEFAULT,
-				(unsigned int)SPRITE_FRAME_CURRENT_DEFAULT
-			),
-			BLOCK_HP_DEFAULT
-		);
-
-		blocks[i] = block;
-	}
-
-	for (int q = 0; q < blocks_max; ) {
-		for (int i = 0; i < ROWS; i++) {
-			for (int j = 0; j < COLS; j++) {
-				if (blocks_level[i][j]) {
-					set_block_position(
-						blocks[q],
-						BLOCK_WIDTH * j + j * BLOCK_GAP + BLOCK_GAP / 2,
-						BLOCK_HEIGHT * i + i * BLOCK_GAP + BLOCK_GAP);
-					q++;
-				}
-			}
-		}
-	}
+	bool blocks_level[ROWS][COLS];
+	memcpy(blocks_level, LEVEL_2, sizeof(blocks_level));
+	
+	int blocks_max = get_max_level_blocks(blocks_level);
+	Block **blocks = create_level(blocks_level, blocks_max);
 
 	bool running = true;
 	bool keys[4] = { false, false, false, false };

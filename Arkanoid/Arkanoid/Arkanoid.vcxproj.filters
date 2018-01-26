@@ -48,6 +48,9 @@
     <ClInclude Include="core\physics\physics.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="core\level\level.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="core\allegro\allegro.c">
@@ -75,6 +78,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="core\physics\physics.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="core\level\level.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

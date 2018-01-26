@@ -1,5 +1,8 @@
 #include "./keyboard.h"
 
+/**
+ * Handle the Player movement on keyboard press.
+ */
 status handle_player_movement(Allegro *allegro, bool keys[], Player *player) {
 	Position player_position = get_player_position(player);
 	Size player_size = get_player_size(player);
@@ -47,6 +50,9 @@ status handle_player_movement(Allegro *allegro, bool keys[], Player *player) {
 	return STATUS_OK_SETVALUE;
 }
 
+/**
+ * Handle user interaction with the keyboard.
+ */
 status handle_keyboard(Allegro *allegro, bool keys[], ALLEGRO_EVENT event, Player *player) {
 	if (event.type == ALLEGRO_EVENT_KEY_DOWN) {
 		keys[KEY_LEFT] = false;

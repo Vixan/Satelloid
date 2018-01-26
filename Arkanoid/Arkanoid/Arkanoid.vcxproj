@@ -24,6 +24,7 @@
   <ItemGroup>
     <ClInclude Include="core\allegro\allegro.h" />
     <ClInclude Include="core\controllers\keyboard\keyboard.h" />
+    <ClInclude Include="core\level\level.h" />
     <ClInclude Include="core\physics\physics.h" />
     <ClInclude Include="globals\status.h" />
     <ClInclude Include="main\main.h" />
@@ -36,6 +37,7 @@
   <ItemGroup>
     <ClCompile Include="core\allegro\allegro.c" />
     <ClCompile Include="core\controllers\keyboard\keyboard.c" />
+    <ClCompile Include="core\level\level.c" />
     <ClCompile Include="core\physics\physics.c" />
     <ClCompile Include="main\main.c" />
     <ClCompile Include="models\ball\ball.c" />
