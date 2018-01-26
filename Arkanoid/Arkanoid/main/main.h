@@ -11,3 +11,6 @@
 #include "../core/controllers/keyboard/keyboard.h"
 #include "../core/physics/physics.h"
 #include "../core/level/level.h"
+#include "../core/menu/menu.h"
+
+status start_game(Allegro *allegro);

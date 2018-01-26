@@ -51,6 +51,9 @@
     <ClInclude Include="core\level\level.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="core\menu\menu.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="core\allegro\allegro.c">
@@ -81,6 +84,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="core\level\level.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="core\menu\menu.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

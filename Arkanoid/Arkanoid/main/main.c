@@ -19,9 +19,29 @@ status main(int argc, char **argv) {
 		allegro_wait_keypress(allegro->event_queue);
 	}
 
+	int selected = false;
+	int menu_choice = MENU_NONE;
+
+	while (menu_choice != MENU_EXIT) {
+		menu_choice = handle_menu(allegro);
+		if (menu_choice == MENU_START) {
+			start_game(allegro);
+			break;
+		}
+	}
+
+	allegro_destroy(allegro);
+
+	return STATUS_OK_EXIT;
+}
+
+/**
+ * Start the game.
+ */
+status start_game(Allegro *allegro) {
 	Player *player = create_player(
 		create_object(
-			SCREEN_WIDTH / 2 - PLAYER_WIDTH / 2,
+			SCREEN_WIDTH / 2 + PLAYER_WIDTH / 2,
 			SCREEN_HEIGHT - 1.5 * PLAYER_HEIGHT,
 			PLAYER_HEIGHT,
 			PLAYER_WIDTH,
@@ -60,7 +80,7 @@ status main(int argc, char **argv) {
 
 	bool blocks_level[ROWS][COLS];
 	memcpy(blocks_level, LEVEL_2, sizeof(blocks_level));
-	
+
 	int blocks_max = get_max_level_blocks(blocks_level);
 	Block **blocks = create_level(blocks_level, blocks_max);
 
@@ -138,11 +158,10 @@ status main(int argc, char **argv) {
 		Block *block = *(blocks + i);
 		destroy_block(block);
 	}
+
 	free(blocks);
 
 	destroy_player(player);
-
-	allegro_destroy(allegro);
 
 	return STATUS_OK_EXIT;
 }

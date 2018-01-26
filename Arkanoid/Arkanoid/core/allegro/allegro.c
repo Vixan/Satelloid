@@ -48,11 +48,15 @@ status allegro_init(Allegro *allegro) {
 		return STATUS_ERROR_ALLEGRO_IMAGE;
 	}
 
+	if (!al_init_image_addon()) {
+		return STATUS_ERROR_ALLEGRO_IMAGE;
+	}
+
 	if (!al_init_font_addon() || !al_init_ttf_addon()) {
 		return STATUS_ERROR_ALLEGRO_FONT;
 	}
 
-	allegro->font = al_load_ttf_font(ALLEGRO_FONT_FILE, ALLEGRO_FONT_DEFAULT_SIZE, 0);
+	allegro->font = al_load_ttf_font(ALLEGRO_FONT_FILE, ALLEGRO_FONT_SIZE_NORMAL, 0);
 	if (!allegro->font) {
 		return STATUS_ERROR_ALLEGRO_FONT;
 	}
