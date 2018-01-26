@@ -3,7 +3,7 @@
 /**
  * Display Main Menu options.
  */
-status display_menu(Allegro *allegro, int choice) {
+status display_menu(Allegro *allegro, int choice, ALLEGRO_FONT *font_dev, ALLEGRO_FONT *font_game) {
 	al_clear_to_color(al_color_html(ALLEGRO_COLOR_DARK));
 
 	if (!al_init_primitives_addon()) {
@@ -15,14 +15,13 @@ status display_menu(Allegro *allegro, int choice) {
 	for (int i = MENU_NONE; i < MENU_EXIT; i++) {
 		al_draw_text(
 			allegro->font,
-			al_color_html(i == (choice - 1) ? ALLEGRO_COLOR_PRIMARY : ALLEGRO_COLOR_DEFAULT),
+			al_color_html(i == (choice - 1) ? ALLEGRO_COLOR_PRIMARY : ALLEGRO_COLOR_DARK_SECONDARY),
 			ALLEGRO_FONT_SIZE_NORMAL,
 			i * ALLEGRO_FONT_SIZE_LARGE + ALLEGRO_FONT_SIZE_NORMAL,
 			ALLEGRO_ALIGN_LEFT, menu_options[i]
 		);
 	}
 
-	ALLEGRO_FONT *font_dev = al_load_ttf_font(ALLEGRO_FONT_FILE, ALLEGRO_FONT_SIZE_SMALL, 0);
 	al_draw_text(
 		font_dev,
 		al_color_html(ALLEGRO_COLOR_TEXT),
@@ -41,7 +40,6 @@ status display_menu(Allegro *allegro, int choice) {
 		GAME_VERSION
 	);
 
-	ALLEGRO_FONT *font_game = al_load_ttf_font(ALLEGRO_FONT_FILE, ALLEGRO_FONT_SIZE_HUGE, 0);
 	al_draw_text(
 		font_game,
 		al_color_html(ALLEGRO_COLOR_PRIMARY),
@@ -60,9 +58,6 @@ status display_menu(Allegro *allegro, int choice) {
 		SCREEN_WIDTH / 2 + PLAYER_WIDTH / 2, SCREEN_HEIGHT - 1.5 * PLAYER_HEIGHT, ALLEGRO_SCALE_DEFAULT, ALLEGRO_SCALE_DEFAULT, 0, 0
 	);
 
-	al_destroy_font(font_dev);
-	al_destroy_font(font_game);
-
 	al_destroy_bitmap(player_image);
 	al_flip_display();
 
@@ -76,6 +71,9 @@ status display_menu(Allegro *allegro, int choice) {
 int handle_menu(Allegro *allegro) {
 	int choice = MENU_START;
 	int selected = MENU_NONE;
+
+	ALLEGRO_FONT *font_dev = al_load_ttf_font(ALLEGRO_FONT_FILE, ALLEGRO_FONT_SIZE_SMALL, 0);
+	ALLEGRO_FONT *font_game = al_load_ttf_font(ALLEGRO_FONT_FILE, ALLEGRO_FONT_SIZE_HUGE, 0);
 
 	al_start_timer(allegro->timer);
 	while (!selected) {
@@ -100,15 +98,17 @@ int handle_menu(Allegro *allegro) {
 			}
 		}
 		if (event.type == ALLEGRO_EVENT_TIMER) {
-			display_menu(allegro, choice);
-		} 
+			display_menu(allegro, choice, font_dev, font_game);
+
+		}
 		if (event.type == ALLEGRO_EVENT_DISPLAY_CLOSE) {
 			exit(STATUS_OK_EXIT);
 		}
 	}
 
+	al_destroy_font(font_dev);
+	al_destroy_font(font_game);
 	al_stop_timer(allegro->timer);
-	al_shutdown_font_addon();
 
 	return selected;
 }

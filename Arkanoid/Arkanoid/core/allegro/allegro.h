@@ -42,6 +42,7 @@ static const char *ALLEGRO_COLOR_TERNARY = "#5ed923"; // Harlequin Green
 static const char *ALLEGRO_COLOR_ACCENT1 = "#ef003c"; // Red (Munsell)
 static const char *ALLEGRO_COLOR_ACCENT2 = "#feda1e"; // Banana Yellow
 static const char *ALLEGRO_COLOR_DARK_ALT = "#22084f"; // Middle Red Purple
+static const char *ALLEGRO_COLOR_DARK_SECONDARY = "#424242"; // Arsenic
 
 static const float FPS = 60.0;
 static const int SCREEN_WIDTH = 1280;

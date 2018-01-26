@@ -1,3 +1,4 @@
+#pragma warning(disable: 4096)
 #include "./main.h"
 
 /**
@@ -47,6 +48,27 @@ status show_menu(Allegro *allegro) {
 }
 
 /**
+ * Display the Player score on the game screen.
+ */
+status show_player_score(Allegro *allegro, Player *player, ALLEGRO_FONT *score_font) {
+	char *score = malloc(16);
+	sprintf(score, "%d", get_player_score(player));
+
+	al_draw_text(
+		score_font,
+		al_color_html(ALLEGRO_COLOR_DARK_SECONDARY),
+		SCREEN_WIDTH / 2,
+		SCREEN_HEIGHT / 2,
+		ALLEGRO_ALIGN_CENTRE,
+		score
+	);
+
+	free(score);
+
+	return STATUS_OK_SETVALUE;
+}
+
+/**
  * Start the game.
  */
 status start_game(Allegro *allegro) {
@@ -89,18 +111,20 @@ status start_game(Allegro *allegro) {
 		BALL_TYPE_DEFAULT
 	);
 
+	bool running = true;
+	bool keys[4] = { false, false, false, false };
 	bool blocks_level[ROWS][COLS];
+	ALLEGRO_FONT *score_font = al_load_font(ALLEGRO_FONT_FILE, 128, 0);
+
 	memcpy(blocks_level, LEVEL_2, sizeof(blocks_level));
 
 	int blocks_max = get_max_level_blocks(blocks_level);
 	Block **blocks = create_level(blocks_level, blocks_max);
 
-	bool running = true;
-	bool keys[4] = { false, false, false, false };
+	set_ball_direction(ball, 1, 1);
 
 	al_start_timer(allegro->timer);
 
-	set_ball_direction(ball, 1, 1);
 	while (running) {
 		ALLEGRO_EVENT event = { .type = ALLEGRO_EVENT_KEY_UP };
 
@@ -122,6 +146,8 @@ status start_game(Allegro *allegro) {
 		al_flip_display();
 		al_clear_to_color(al_color_html(ALLEGRO_COLOR_DARK));
 
+		show_player_score(allegro, player, score_font);
+
 		al_wait_for_event(allegro->event_queue, &event);
 
 		if (event.type == ALLEGRO_EVENT_TIMER) {
@@ -134,11 +160,12 @@ status start_game(Allegro *allegro) {
 			}
 			if (ball && player) {
 				handle_physics_ball_player(ball, player);
+				
 			}
 			if (ball) {
 				for (int i = 0; i < blocks_max; i++) {
 					if (blocks[i]) {
-						handle_physics_ball_block(ball, blocks[i]);
+						handle_physics_ball_block(ball, blocks[i], player);
 
 						if (get_block_hp(blocks[i]) <= 0) {
 							if (get_block_hp(blocks[i]) == 0 && animate_block(blocks[i])) {
@@ -173,6 +200,7 @@ status start_game(Allegro *allegro) {
 	}
 
 	free(blocks);
+	al_destroy_font(score_font);
 
 	destroy_player(player);
 

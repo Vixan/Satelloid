@@ -14,4 +14,5 @@
 #include "../core/menu/menu.h"
 
 status show_menu(Allegro *allegro);
+status show_player_score(Allegro *allegro, Player *player, ALLEGRO_FONT *score_font);
 status start_game(Allegro *allegro);

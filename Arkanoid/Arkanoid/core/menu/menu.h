@@ -26,5 +26,5 @@ static const char *menu_options[MENU_EXIT + 1] = {
 	"EXIT GAME"
 };
 
-status display_menu(Allegro *allegro, int choice);
+status display_menu(Allegro *allegro, int choice, ALLEGRO_FONT *font_dev, ALLEGRO_FONT *font_game);
 int handle_menu(Allegro *allegro);
