@@ -54,6 +54,9 @@
     <ClInclude Include="core\menu\menu.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="globals\game.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="core\allegro\allegro.c">

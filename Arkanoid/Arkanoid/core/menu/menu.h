@@ -9,6 +9,7 @@
 #include "../allegro/allegro.h"
 #include "../../globals/status.h"
 #include "../../models/player/player.h"
+#include "../../globals/game.h"
 
 enum MENU_OPTIONS {
 	MENU_NONE,

@@ -35,6 +35,7 @@ static const char *ALLEGRO_COLOR_WARNING = "#ffe713"; // Vivid Yellow
 static const char *ALLEGRO_COLOR_INFO = "#155ad4"; // Denim
 
 static const char *ALLEGRO_COLOR_DEFAULT = "#ffffff"; // White
+static const char *ALLEGRO_COLOR_TEXT = "#9e9e9e"; // Spanish Gray
 static const char *ALLEGRO_COLOR_PRIMARY = "#41ead4"; // Turquoise
 static const char *ALLEGRO_COLOR_SECONDARY = "#ff206e"; // Awesome
 static const char *ALLEGRO_COLOR_TERNARY = "#5ed923"; // Harlequin Green

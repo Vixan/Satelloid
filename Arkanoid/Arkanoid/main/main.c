@@ -159,7 +159,6 @@ status start_game(Allegro *allegro) {
 			return STATUS_OK_EXIT;
 		}
 		else if (handle_keyboard(allegro, keys, event, player) == STATUS_OK_EXIT) {
-			//return STATUS_OK_EXIT;
 			if (show_menu(allegro) == STATUS_OK_EXIT) {
 				return STATUS_OK_EXIT;
 			}

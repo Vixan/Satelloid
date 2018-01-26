@@ -1,9 +1,5 @@
 #include "./menu.h"
 
-//status display_title(Allegro *allegro) {
-//
-//}
-
 /**
  * Display Main Menu options.
  */
@@ -26,13 +22,33 @@ status display_menu(Allegro *allegro, int choice) {
 		);
 	}
 
-	ALLEGRO_FONT *font = al_load_ttf_font(ALLEGRO_FONT_FILE, ALLEGRO_FONT_SIZE_SMALL, 0);
+	ALLEGRO_FONT *font_dev = al_load_ttf_font(ALLEGRO_FONT_FILE, ALLEGRO_FONT_SIZE_SMALL, 0);
 	al_draw_text(
-		font,
-		al_color_html(ALLEGRO_COLOR_DEFAULT),
+		font_dev,
+		al_color_html(ALLEGRO_COLOR_TEXT),
 		2 * ALLEGRO_FONT_SIZE_SMALL,
 		SCREEN_HEIGHT - 2 * ALLEGRO_FONT_SIZE_SMALL,
-		ALLEGRO_ALIGN_LEFT, "Satelloid, v.1.0.0"
+		ALLEGRO_ALIGN_LEFT,
+		"Developed by "GAME_DEVELOPER_NAME
+	);
+
+	al_draw_text(
+		font_dev,
+		al_color_html(ALLEGRO_COLOR_TEXT),
+		2 * ALLEGRO_FONT_SIZE_SMALL,
+		SCREEN_HEIGHT - PLAYER_HEIGHT - 32,
+		ALLEGRO_ALIGN_LEFT,
+		GAME_VERSION
+	);
+
+	ALLEGRO_FONT *font_game = al_load_ttf_font(ALLEGRO_FONT_FILE, ALLEGRO_FONT_SIZE_HUGE, 0);
+	al_draw_text(
+		font_game,
+		al_color_html(ALLEGRO_COLOR_PRIMARY),
+		2 * ALLEGRO_FONT_SIZE_SMALL,
+		SCREEN_HEIGHT - 2 * PLAYER_HEIGHT - 32,
+		ALLEGRO_ALIGN_LEFT,
+		GAME_NAME
 	);
 
 	ALLEGRO_BITMAP *player_image = al_load_bitmap(PLAYER_IMAGE_DEFAULT_PATH);
@@ -44,11 +60,12 @@ status display_menu(Allegro *allegro, int choice) {
 		SCREEN_WIDTH / 2 + PLAYER_WIDTH / 2, SCREEN_HEIGHT - 1.5 * PLAYER_HEIGHT, ALLEGRO_SCALE_DEFAULT, ALLEGRO_SCALE_DEFAULT, 0, 0
 	);
 
-
-	al_flip_display();
+	al_destroy_font(font_dev);
+	al_destroy_font(font_game);
 
 	al_destroy_bitmap(player_image);
-	al_destroy_font(font);
+	al_flip_display();
+
 
 	return STATUS_OK_SETVALUE;
 }
@@ -84,6 +101,9 @@ int handle_menu(Allegro *allegro) {
 		}
 		if (event.type == ALLEGRO_EVENT_TIMER) {
 			display_menu(allegro, choice);
+		} 
+		if (event.type == ALLEGRO_EVENT_DISPLAY_CLOSE) {
+			exit(STATUS_OK_EXIT);
 		}
 	}
 
