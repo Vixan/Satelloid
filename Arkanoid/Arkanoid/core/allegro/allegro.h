@@ -52,6 +52,7 @@ static const int SCREEN_HEIGHT = 720;
 static const int WINDOW_MODE = ALLEGRO_WINDOWED;
 static const char *ALLEGRO_FONT_FILE = "./assets/fonts/prime.otf";
 static const char *ALLEGRO_BACKGROUND_SAMPLE_FILE = "./assets/music/starlight-looping.ogg";
+static const char *ALLEGRO_GAMEOVER_SAMPLE_FILE = "./assets/music/security-breach.ogg";
 static const char *ALLEGRO_EFFECT_SAMPLE_FILE = "./assets/music/laser-ricochet.ogg";
 static const int ALLEGRO_AUDIO_SAMPLE_RESERVED= 10;
 static const int ALLEGRO_FONT_SIZE_HUGE = 72;

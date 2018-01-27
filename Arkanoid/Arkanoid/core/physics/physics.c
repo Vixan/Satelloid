@@ -29,7 +29,7 @@ bool objects_overlap(Object *object1, Object *object2) {
 /**
  * Keep the Ball always in bounds.
  */
-status handle_physics_ball_bounds(Ball *ball) {
+status handle_physics_ball_bounds(Ball *ball, Player *player) {
 	Direction ball_direction = get_ball_direction(ball);
 	Position ball_position = get_ball_position(ball);
 	Size ball_size = get_ball_size(ball);
@@ -53,8 +53,11 @@ status handle_physics_ball_bounds(Ball *ball) {
 	}
 
 	if ((int)ball_position.y + 1 >= SCREEN_HEIGHT - (int)ball_size.width) {
-		if (set_ball_direction(ball, ball_direction.x, -ball_direction.y) == STATUS_ERROR_SETVALUE) {
+		/*if (set_ball_direction(ball, ball_direction.x, -ball_direction.y) == STATUS_ERROR_SETVALUE) {
 			return STATUS_ERROR_SETVALUE;
+		}*/
+		if (get_player_hp(player) > 0) {
+			set_player_hp(player, get_player_hp(player) - 1);
 		}
 	}
 
@@ -80,9 +83,14 @@ status handle_physics_ball_block(Ball *ball, Block *block, Player *player, ALLEG
 	bool right_collision = ball_position.x >= block_position.x + block_size.width;
 
 	if (collision_detected) {
-		set_block_hp(block, get_block_hp(block) - 1);
+		if (get_block_hp(block) > 0) {
+			set_block_hp(block, get_block_hp(block) - 1);
+		}
 		set_player_score(player, get_player_score(player) + BLOCK_POINTS);
-		al_play_sample(effect_sample, 0.2, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
+
+		if (effect_sample) {
+			al_play_sample(effect_sample, 0.2, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
+		}
 
 		if (bottom_collision) {
 			set_ball_direction(ball, ball_direction.x, -ball_direction.y);
@@ -126,7 +134,7 @@ status handle_physics_ball_player(Ball *ball, Player *player) {
 			if (ball_position.x <= player_position.x + player_size.width / 4 + ball_size.width && player_direction.x == 1 && ball_direction.x == 1) {
 				set_ball_direction(ball, -ball_direction.x, -ball_direction.y);
 			}
-			else if (ball_position.x > player_position.x + player_size.width / 4 + ball_size.width && player_direction.x == -1 && ball_direction.x ==-1) {
+			else if (ball_position.x > player_position.x + player_size.width / 4 + ball_size.width && player_direction.x == -1 && ball_direction.x == -1) {
 				set_ball_direction(ball, -ball_direction.x, -ball_direction.y);
 			}
 			else {

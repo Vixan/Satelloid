@@ -115,7 +115,7 @@ void allegro_message(Allegro *allegro, AllegroMessages type, char *message) {
 	al_clear_to_color(al_color_html(ALLEGRO_COLOR_DARK));
 	al_draw_text(
 		allegro->font,
-		al_color_html(ALLEGRO_COLOR_ERROR),
+		al_color_html(type == ALLEGRO_MESSAGE_ERROR ? ALLEGRO_COLOR_ERROR : ALLEGRO_COLOR_TEXT),
 		SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, ALLEGRO_ALIGN_CENTRE, message
 	);
 

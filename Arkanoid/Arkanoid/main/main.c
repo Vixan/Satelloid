@@ -1,4 +1,5 @@
-#pragma warning(disable: 4096)
+#pragma warning(disable : 4996)
+
 #include "./main.h"
 
 /**
@@ -20,7 +21,6 @@ status main(int argc, char **argv) {
 		allegro_wait_keypress(allegro->event_queue);
 	}
 
-	al_play_sample(allegro->music, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_LOOP, NULL);
 	show_menu(allegro);
 
 	allegro_destroy(allegro);
@@ -34,13 +34,68 @@ status main(int argc, char **argv) {
 status show_menu(Allegro *allegro) {
 	int selected = false;
 	int menu_choice = MENU_NONE;
+	status game_status = STATUS_NEW_GAME;
+	ALLEGRO_FONT *game_over_font = al_load_font(ALLEGRO_FONT_FILE, ALLEGRO_FONT_SIZE_HUGE, 0);
+	ALLEGRO_SAMPLE *game_over_sample = al_load_sample(ALLEGRO_GAMEOVER_SAMPLE_FILE);
+	ALLEGRO_SAMPLE_ID background_sample_id;
+	ALLEGRO_SAMPLE_ID game_over_sample_id;
+
+	al_play_sample(allegro->music, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_LOOP, &background_sample_id);
 
 	while (menu_choice != MENU_EXIT) {
 		menu_choice = handle_menu(allegro);
 		if (menu_choice == MENU_START) {
-			if (start_game(allegro) == STATUS_ERROR_EXIT) {
+			game_status = start_game(allegro);
+
+			if (game_status == STATUS_ERROR_EXIT) {
 				return STATUS_ERROR_EXIT;
 			}
+
+			if (game_status == STATUS_GAME_OVER) {
+				char *final_message = malloc(SCORE_MAX_DIGITS + 50);
+				sprintf(final_message, "%d", final_score);
+				strcat(final_message, " points");
+
+				al_clear_to_color(al_color_html(ALLEGRO_COLOR_DARK));
+				al_draw_text(
+					game_over_font,
+					al_color_html(ALLEGRO_COLOR_ACCENT1),
+					SCREEN_WIDTH / 2, 
+					SCREEN_HEIGHT / 2 - ALLEGRO_FONT_SIZE_HUGE, 
+					ALLEGRO_ALIGN_CENTRE,
+					"GAME OVER"
+				);
+
+				al_draw_text(
+					allegro->font,
+					al_color_html(ALLEGRO_COLOR_TEXT),
+					SCREEN_WIDTH / 2, 
+					SCREEN_HEIGHT / 2,
+					ALLEGRO_ALIGN_CENTRE, 
+					final_message
+				);
+
+				al_draw_text(
+					allegro->font,
+					al_color_html(ALLEGRO_COLOR_DARK_SECONDARY),
+					SCREEN_WIDTH / 2,
+					SCREEN_HEIGHT - 2 * ALLEGRO_FONT_SIZE_HUGE,
+					ALLEGRO_ALIGN_CENTRE,
+					"Press ESC to return to MENU"
+				);
+
+				al_stop_sample(&background_sample_id);
+				al_play_sample(game_over_sample, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_LOOP, &game_over_sample_id);
+
+				al_flip_display();
+				allegro_wait_keypress(allegro->event_queue);
+				al_destroy_font(game_over_font);
+				al_stop_sample(&game_over_sample_id);
+				al_destroy_sample(game_over_sample);
+
+				show_menu(allegro);
+			}
+
 			break;
 		}
 	}
@@ -52,8 +107,7 @@ status show_menu(Allegro *allegro) {
  * Display the Player score on the game screen.
  */
 status show_player_score(Allegro *allegro, Player *player, ALLEGRO_FONT *score_font) {
-	const int score_max_digits = 16;
-	char *score = malloc(score_max_digits);
+	char *score = malloc(SCORE_MAX_DIGITS);
 	sprintf(score, "%d", get_player_score(player));
 
 	al_draw_text(
@@ -113,7 +167,7 @@ status start_game(Allegro *allegro) {
 		BALL_TYPE_DEFAULT
 	);
 
-	bool running = true;
+	status game_status = STATUS_GAME_RUNNING;
 	bool keys[4] = { false, false, false, false };
 	bool blocks_level[ROWS][COLS];
 	ALLEGRO_FONT *score_font = al_load_font(ALLEGRO_FONT_FILE, 128, 0);
@@ -128,7 +182,7 @@ status start_game(Allegro *allegro) {
 
 	al_start_timer(allegro->timer);
 
-	while (running) {
+	while (game_status == STATUS_GAME_RUNNING) {
 		ALLEGRO_EVENT event = { .type = ALLEGRO_EVENT_KEY_UP };
 
 		if (player) {
@@ -154,12 +208,17 @@ status start_game(Allegro *allegro) {
 		al_wait_for_event(allegro->event_queue, &event);
 
 		if (event.type == ALLEGRO_EVENT_TIMER) {
+			if (get_player_hp(player) == 0) {
+				game_status = STATUS_GAME_OVER;
+				break;
+			}
+
 			if (handle_player_movement(allegro, keys, player) == STATUS_ERROR_SETVALUE) {
 				return STATUS_ERROR_EXIT;
 			}
 
 			if (ball) {
-				handle_physics_ball_bounds(ball);
+				handle_physics_ball_bounds(ball, player);
 			}
 			if (ball && player) {
 				handle_physics_ball_player(ball, player);
@@ -169,7 +228,7 @@ status start_game(Allegro *allegro) {
 				for (int i = 0; i < blocks_max; i++) {
 					if (blocks[i]) {
 						if (handle_physics_ball_block(ball, blocks[i], player, effect_sample) == STATUS_OK_SETVALUE) {
-							if (get_block_hp(blocks[i]) <= 0 && animate_block(blocks[i])) {
+							if (get_block_hp(blocks[i]) == 0 && animate_block(blocks[i])) {
 								blocks[i] = destroy_block(blocks[i]);
 							}
 						}
@@ -184,14 +243,15 @@ status start_game(Allegro *allegro) {
 			);
 		}
 		if (event.type == ALLEGRO_EVENT_DISPLAY_CLOSE) {
-			return STATUS_OK_EXIT;
+			game_status = STATUS_OK_EXIT;
+			break;
 		}
 		else if (handle_keyboard(allegro, keys, event, player) == STATUS_OK_EXIT) {
-			if (show_menu(allegro) == STATUS_OK_EXIT) {
-				return STATUS_OK_EXIT;
-			}
+			game_status = STATUS_OK_EXIT;
+			break;
 		}
 	}
+
 
 	destroy_ball(ball);
 
@@ -204,7 +264,8 @@ status start_game(Allegro *allegro) {
 	al_destroy_font(score_font);
 	al_destroy_sample(effect_sample);
 
+	final_score = get_player_score(player);
 	destroy_player(player);
 
-	return STATUS_OK_EXIT;
+	return game_status;
 }
