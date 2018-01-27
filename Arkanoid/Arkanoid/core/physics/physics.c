@@ -53,11 +53,15 @@ status handle_physics_ball_bounds(Ball *ball, Player *player) {
 	}
 
 	if ((int)ball_position.y + 1 >= SCREEN_HEIGHT - (int)ball_size.width) {
-		/*if (set_ball_direction(ball, ball_direction.x, -ball_direction.y) == STATUS_ERROR_SETVALUE) {
-			return STATUS_ERROR_SETVALUE;
-		}*/
 		if (get_player_hp(player) > 0) {
 			set_player_hp(player, get_player_hp(player) - 1);
+			set_ball_position(
+				ball,
+				get_player_position(player).x + PLAYER_WIDTH / 2 - BALL_WIDTH / 2,
+				get_player_position(player).y - PLAYER_HEIGHT / 2 - 1
+			);
+
+			set_ball_direction(ball, OBJECT_DIRECTION_DEFAULT, OBJECT_DIRECTION_DEFAULT);
 		}
 	}
 

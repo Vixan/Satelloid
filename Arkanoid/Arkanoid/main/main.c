@@ -1,6 +1,4 @@
-#pragma warning(disable : 4996)
-
-#include "./main.h"
+﻿#include "./main.h"
 
 /**
  * The application main/root function.
@@ -45,7 +43,7 @@ status show_menu(Allegro *allegro) {
 	while (menu_choice != MENU_EXIT) {
 		menu_choice = handle_menu(allegro);
 		if (menu_choice == MENU_START) {
-			game_status = start_game(allegro, LEVEL_1);
+			game_status = start_game(allegro, (bool(*)[COLS])LEVEL_2);
 
 			if (game_status == STATUS_ERROR_EXIT) {
 				return STATUS_ERROR_EXIT;
@@ -67,7 +65,7 @@ status show_menu(Allegro *allegro) {
 					SCREEN_WIDTH / 2,
 					SCREEN_HEIGHT / 2 - ALLEGRO_FONT_SIZE_HUGE,
 					ALLEGRO_ALIGN_CENTRE,
-					"GAME OVER"
+					"SATELLITE MISSION OVER"
 				);
 
 				al_draw_text(
@@ -108,27 +106,6 @@ status show_menu(Allegro *allegro) {
 }
 
 /**
- * Display the Player score on the game screen.
- */
-status show_player_score(Allegro *allegro, Player *player, ALLEGRO_FONT *score_font) {
-	char *score = malloc(SCORE_MAX_DIGITS);
-	sprintf(score, "%d", get_player_score(player));
-
-	al_draw_text(
-		score_font,
-		al_color_html(ALLEGRO_COLOR_DARK_SECONDARY),
-		SCREEN_WIDTH / 2,
-		SCREEN_HEIGHT / 2,
-		ALLEGRO_ALIGN_CENTRE,
-		score
-	);
-
-	free(score);
-
-	return STATUS_OK_SETVALUE;
-}
-
-/**
  * Start the game.
  */
 status start_game(Allegro *allegro, bool level[ROWS][COLS]) {
@@ -138,8 +115,8 @@ status start_game(Allegro *allegro, bool level[ROWS][COLS]) {
 			SCREEN_HEIGHT - 1.5 * PLAYER_HEIGHT,
 			PLAYER_HEIGHT,
 			PLAYER_WIDTH,
-			0,
-			0,
+			OBJECT_DIRECTION_DEFAULT,
+			OBJECT_DIRECTION_DEFAULT,
 			PLAYER_VELOCITY_DEFAULT
 		),
 		create_sprite(
@@ -158,8 +135,8 @@ status start_game(Allegro *allegro, bool level[ROWS][COLS]) {
 			get_player_position(player).y - PLAYER_HEIGHT / 2 - 1,
 			BALL_HEIGHT,
 			BALL_WIDTH,
-			0,
-			0,
+			OBJECT_DIRECTION_DEFAULT,
+			OBJECT_DIRECTION_DEFAULT,
 			BALL_VELOCITY_DEFAULT
 		),
 		create_sprite(
@@ -176,6 +153,7 @@ status start_game(Allegro *allegro, bool level[ROWS][COLS]) {
 	bool blocks_level[ROWS][COLS];
 	ALLEGRO_FONT *score_font = al_load_font(ALLEGRO_FONT_FILE, 128, 0);
 	ALLEGRO_SAMPLE *effect_sample = al_load_sample(ALLEGRO_EFFECT_SAMPLE_FILE);
+	ALLEGRO_BITMAP *player_hp_image = al_load_bitmap(PLAYER_HP_IMAGE_PATH);
 
 	memcpy(blocks_level, level, sizeof(blocks_level));
 
@@ -206,6 +184,7 @@ status start_game(Allegro *allegro, bool level[ROWS][COLS]) {
 		al_clear_to_color(al_color_html(ALLEGRO_COLOR_DARK));
 
 		show_player_score(allegro, player, score_font);
+		show_player_hp(player_hp_image, player, PLAYER_HEIGHT);
 
 		al_wait_for_event(allegro->event_queue, &event);
 
@@ -274,6 +253,7 @@ status start_game(Allegro *allegro, bool level[ROWS][COLS]) {
 	free(blocks);
 	al_destroy_font(score_font);
 	al_destroy_sample(effect_sample);
+	al_destroy_bitmap(player_hp_image);
 
 	final_score = get_player_score(player);
 	destroy_player(player);

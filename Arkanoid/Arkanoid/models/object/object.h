@@ -27,6 +27,7 @@ typedef struct Object {
 } Object;
 
 static const int OBJECT_VELOCITY_DEFAULT = 0;
+static const int OBJECT_DIRECTION_DEFAULT = 0;
 
 Object *create_object(unsigned int x, unsigned int y, unsigned int height, unsigned int width, int dx, int dy, int velocity);
 status destroy_object(Object *object);

@@ -78,7 +78,7 @@ status handle_keyboard(Allegro *allegro, bool keys[], ALLEGRO_EVENT event, Playe
 			break;
 		case ALLEGRO_KEY_SPACE:
 			if (!(ball_direction.x && ball_direction.y)) {
-				set_ball_direction(ball, (get_player_direction(player).x == 0) ? 1 : get_player_direction(player).x, 1);
+				set_ball_direction(ball, (player_direction.x == 0) ? 1 : player_direction.x, 1);
 			}
 		}
 	}

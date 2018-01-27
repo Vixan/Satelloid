@@ -287,3 +287,42 @@ status draw_player(Player *player) {
 
 	return STATUS_OK_SETVALUE;
 }
+
+/**
+* Display the Player score on the game screen.
+*/
+status show_player_score(Allegro *allegro, Player *player, ALLEGRO_FONT *score_font) {
+	char *score = malloc(SCORE_MAX_DIGITS);
+	sprintf(score, "%d", get_player_score(player));
+
+	al_draw_text(
+		score_font,
+		al_color_html(ALLEGRO_COLOR_DARK_SECONDARY),
+		SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2,
+		ALLEGRO_ALIGN_CENTRE,
+		score
+	);
+
+	free(score);
+
+	return STATUS_OK_SETVALUE;
+}
+
+/**
+* Display Player's HP as lives.
+*/
+status show_player_hp(ALLEGRO_BITMAP *image, Player *player, int image_size) {
+	for (int i = 0; i < (int)get_player_hp(player); i++) {
+		al_draw_tinted_scaled_bitmap(
+			image,
+			al_color_html(ALLEGRO_COLOR_DARK_SECONDARY), 0, 0,
+			image_size, image_size,
+			SCREEN_WIDTH / 2 + i * (image_size / 2 + image_size / 4) - image_size,
+			SCREEN_HEIGHT / 2 + image_size * 2,
+			image_size / 2, image_size / 2,
+			0
+		);
+	}
+
+	return STATUS_OK_SETVALUE;
+}
