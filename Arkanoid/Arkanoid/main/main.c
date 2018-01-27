@@ -20,6 +20,7 @@ status main(int argc, char **argv) {
 		allegro_wait_keypress(allegro->event_queue);
 	}
 
+	al_play_sample(allegro->music, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_LOOP, NULL);
 	show_menu(allegro);
 
 	allegro_destroy(allegro);
@@ -51,7 +52,8 @@ status show_menu(Allegro *allegro) {
  * Display the Player score on the game screen.
  */
 status show_player_score(Allegro *allegro, Player *player, ALLEGRO_FONT *score_font) {
-	char *score = malloc(16);
+	const int score_max_digits = 16;
+	char *score = malloc(score_max_digits);
 	sprintf(score, "%d", get_player_score(player));
 
 	al_draw_text(
@@ -115,6 +117,7 @@ status start_game(Allegro *allegro) {
 	bool keys[4] = { false, false, false, false };
 	bool blocks_level[ROWS][COLS];
 	ALLEGRO_FONT *score_font = al_load_font(ALLEGRO_FONT_FILE, 128, 0);
+	ALLEGRO_SAMPLE *effect_sample = al_load_sample(ALLEGRO_EFFECT_SAMPLE_FILE);
 
 	memcpy(blocks_level, LEVEL_2, sizeof(blocks_level));
 
@@ -160,15 +163,13 @@ status start_game(Allegro *allegro) {
 			}
 			if (ball && player) {
 				handle_physics_ball_player(ball, player);
-				
+
 			}
-			if (ball) {
+			if (ball && blocks) {
 				for (int i = 0; i < blocks_max; i++) {
 					if (blocks[i]) {
-						handle_physics_ball_block(ball, blocks[i], player);
-
-						if (get_block_hp(blocks[i]) <= 0) {
-							if (get_block_hp(blocks[i]) == 0 && animate_block(blocks[i])) {
+						if (handle_physics_ball_block(ball, blocks[i], player, effect_sample) == STATUS_OK_SETVALUE) {
+							if (get_block_hp(blocks[i]) <= 0 && animate_block(blocks[i])) {
 								blocks[i] = destroy_block(blocks[i]);
 							}
 						}
@@ -201,6 +202,7 @@ status start_game(Allegro *allegro) {
 
 	free(blocks);
 	al_destroy_font(score_font);
+	al_destroy_sample(effect_sample);
 
 	destroy_player(player);
 

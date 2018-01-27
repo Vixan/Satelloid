@@ -165,6 +165,10 @@ unsigned int get_block_current_frame(Block *block) {
  * Run the animation of the Block when destroyed.
  */
 bool animate_block(Block *block) {
+	if (!block || !block->hp <= 0) {
+		return false;
+	}
+
 	unsigned int frame_max = get_sprite_max_frame(get_block_sprite(block));
 
 	if (get_sprite_current_frame(get_block_sprite(block)) >= frame_max) {

@@ -64,7 +64,7 @@ status handle_physics_ball_bounds(Ball *ball) {
 /**
  * Handle the collision of the Ball with a Block.
  */
-status handle_physics_ball_block(Ball *ball, Block *block, Player *player) {
+status handle_physics_ball_block(Ball *ball, Block *block, Player *player, ALLEGRO_SAMPLE *effect_sample) {
 	Direction ball_direction = get_ball_direction(ball);
 	Position ball_position = get_ball_position(ball);
 	Size ball_size = get_ball_size(ball);
@@ -82,6 +82,7 @@ status handle_physics_ball_block(Ball *ball, Block *block, Player *player) {
 	if (collision_detected) {
 		set_block_hp(block, get_block_hp(block) - 1);
 		set_player_score(player, get_player_score(player) + BLOCK_POINTS);
+		al_play_sample(effect_sample, 0.2, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
 
 		if (bottom_collision) {
 			set_ball_direction(ball, ball_direction.x, -ball_direction.y);
@@ -118,14 +119,14 @@ status handle_physics_ball_player(Ball *ball, Player *player) {
 
 	bool top_collision = ball_position.y + ball_size.height >= player_position.y;
 	bool left_collision = ball_position.x + ball_size.width <= player_position.x;
-	bool right_collision = ball_position.x >= player_position.x + player_size.width;
+	bool right_collision = ball_position.x + ball_size.height >= player_position.x + player_size.width;
 
 	if (objects_overlap(get_ball_object(ball), get_player_object(player))) {
 		if (top_collision) {
-			if (ball_position.x <= player_position.x + player_size.width / 4 && player_direction.x == 1 && ball_direction.x == 1) {
+			if (ball_position.x <= player_position.x + player_size.width / 4 + ball_size.width && player_direction.x == 1 && ball_direction.x == 1) {
 				set_ball_direction(ball, -ball_direction.x, -ball_direction.y);
 			}
-			else if (ball_position.x >= player_position.x + player_size.width / 4 && player_direction.x == -1 && ball_direction.x ==-1) {
+			else if (ball_position.x > player_position.x + player_size.width / 4 + ball_size.width && player_direction.x == -1 && ball_direction.x ==-1) {
 				set_ball_direction(ball, -ball_direction.x, -ball_direction.y);
 			}
 			else {

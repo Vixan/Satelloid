@@ -8,6 +8,7 @@
 #include <allegro5/allegro_ttf.h>
 #include <allegro5/allegro_image.h>
 #include <allegro5/allegro_audio.h>
+#include <allegro5/allegro_acodec.h>
 #include <allegro5/allegro_color.h>
 
 #include "../../globals/status.h"
@@ -20,6 +21,7 @@ typedef struct Allegro {
 	ALLEGRO_EVENT_QUEUE *event_queue;
 	ALLEGRO_TIMER *timer;
 	ALLEGRO_FONT *font;
+	ALLEGRO_SAMPLE *music;
 } Allegro;
 
 typedef enum AllegroMessages {
@@ -49,6 +51,9 @@ static const int SCREEN_WIDTH = 1280;
 static const int SCREEN_HEIGHT = 720;
 static const int WINDOW_MODE = ALLEGRO_WINDOWED;
 static const char *ALLEGRO_FONT_FILE = "./assets/fonts/prime.otf";
+static const char *ALLEGRO_BACKGROUND_SAMPLE_FILE = "./assets/music/starlight-looping.ogg";
+static const char *ALLEGRO_EFFECT_SAMPLE_FILE = "./assets/music/laser-ricochet.ogg";
+static const int ALLEGRO_AUDIO_SAMPLE_RESERVED= 10;
 static const int ALLEGRO_FONT_SIZE_HUGE = 72;
 static const int ALLEGRO_FONT_SIZE_LARGE = 48;
 static const int ALLEGRO_FONT_SIZE_NORMAL = 36;

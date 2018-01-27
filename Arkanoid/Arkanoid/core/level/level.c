@@ -27,7 +27,7 @@ int get_max_level_blocks(bool level[ROWS][COLS]) {
 Block **create_level(bool level[ROWS][COLS], unsigned int blocks_max) {
 	Block **blocks = malloc(sizeof(Block *) * blocks_max);
 
-	for (int i = 0; i < blocks_max; i++) {
+	for (int i = 0; i < (int)blocks_max; i++) {
 		blocks[i] = create_block(
 			create_object(
 				0,
@@ -48,7 +48,7 @@ Block **create_level(bool level[ROWS][COLS], unsigned int blocks_max) {
 		);
 	}
 
-	for (int q = 0; q < blocks_max; ) {
+	for (int q = 0; q < (int)blocks_max; ) {
 		for (int i = 0; i < ROWS; i++) {
 			for (int j = 0; j < COLS; j++) {
 				if (level[i][j]) {

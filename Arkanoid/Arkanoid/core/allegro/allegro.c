@@ -14,6 +14,7 @@ Allegro *allegro_create() {
 	allegro->event_queue = NULL;
 	allegro->timer = NULL;
 	allegro->font = NULL;
+	allegro->music = NULL;
 
 	return allegro;
 }
@@ -48,10 +49,6 @@ status allegro_init(Allegro *allegro) {
 		return STATUS_ERROR_ALLEGRO_IMAGE;
 	}
 
-	if (!al_init_image_addon()) {
-		return STATUS_ERROR_ALLEGRO_IMAGE;
-	}
-
 	if (!al_init_font_addon() || !al_init_ttf_addon()) {
 		return STATUS_ERROR_ALLEGRO_FONT;
 	}
@@ -66,6 +63,21 @@ status allegro_init(Allegro *allegro) {
 	}
 
 	if (!al_install_audio()) {
+		return STATUS_ERROR_ALLEGRO_AUDIO;
+	}
+
+	if (!al_init_acodec_addon()) {
+		return STATUS_ERROR_ALLEGRO_AUDIO;
+	}
+
+	if (!al_reserve_samples(1)) {
+		return STATUS_ERROR_ALLEGRO_AUDIO;
+	}
+
+	allegro->music = al_load_sample(ALLEGRO_BACKGROUND_SAMPLE_FILE);
+	al_reserve_samples(ALLEGRO_AUDIO_SAMPLE_RESERVED);
+
+	if (!allegro->music) {
 		return STATUS_ERROR_ALLEGRO_AUDIO;
 	}
 
@@ -88,6 +100,7 @@ void allegro_destroy(Allegro *allegro) {
 	al_destroy_timer(allegro->timer);
 	al_shutdown_font_addon();
 	al_shutdown_image_addon();
+	al_destroy_sample(allegro->music);
 	al_uninstall_keyboard();
 	al_uninstall_audio();
 	al_uninstall_system();
