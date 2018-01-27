@@ -1,12 +1,12 @@
 #include "./level.h"
 
 /**
- * Retrieve the number of blocks from the passed matrix which reresents the level layout,
+ * Retrieve the number of blocks from the passed matrix which represents the level layout,
  */
 int get_max_level_blocks(bool level[ROWS][COLS]) {
 	int blocks_max = 0;
 
-	if (!level[0][0]) {
+	if (!level) {
 		return 0;
 	}
 

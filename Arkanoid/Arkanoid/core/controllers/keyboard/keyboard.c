@@ -53,7 +53,10 @@ status handle_player_movement(Allegro *allegro, bool keys[], Player *player) {
 /**
  * Handle user interaction with the keyboard.
  */
-status handle_keyboard(Allegro *allegro, bool keys[], ALLEGRO_EVENT event, Player *player) {
+status handle_keyboard(Allegro *allegro, bool keys[], ALLEGRO_EVENT event, Player *player, Ball *ball) {
+	Direction ball_direction = get_ball_direction(ball);
+	Direction player_direction = get_player_direction(player);
+
 	if (event.type == ALLEGRO_EVENT_KEY_DOWN) {
 		keys[KEY_LEFT] = false;
 		keys[KEY_RIGHT] = false;
@@ -62,20 +65,21 @@ status handle_keyboard(Allegro *allegro, bool keys[], ALLEGRO_EVENT event, Playe
 		case ALLEGRO_KEY_UP:
 			keys[KEY_UP] = true;
 			break;
-
 		case ALLEGRO_KEY_DOWN:
 			keys[KEY_DOWN] = true;
 			break;
-
 		case ALLEGRO_KEY_LEFT:
 			keys[KEY_LEFT] = true;
 			set_sprite_frame_column(get_player_sprite(player), 2);
 			break;
-
 		case ALLEGRO_KEY_RIGHT:
 			keys[KEY_RIGHT] = true;
 			set_sprite_frame_column(get_player_sprite(player), 1);
 			break;
+		case ALLEGRO_KEY_SPACE:
+			if (!(ball_direction.x && ball_direction.y)) {
+				set_ball_direction(ball, (get_player_direction(player).x == 0) ? 1 : get_player_direction(player).x, 1);
+			}
 		}
 	}
 	else if (event.type == ALLEGRO_EVENT_KEY_UP) {
@@ -83,19 +87,15 @@ status handle_keyboard(Allegro *allegro, bool keys[], ALLEGRO_EVENT event, Playe
 		case ALLEGRO_KEY_UP:
 			keys[KEY_UP] = false;
 			break;
-
 		case ALLEGRO_KEY_DOWN:
 			keys[KEY_DOWN] = false;
 			break;
-
 		case ALLEGRO_KEY_LEFT:
 			keys[KEY_LEFT] = false;
 			break;
-
 		case ALLEGRO_KEY_RIGHT:
 			keys[KEY_RIGHT] = false;
 			break;
-
 		case ALLEGRO_KEY_ESCAPE:
 			return STATUS_OK_EXIT;
 		}

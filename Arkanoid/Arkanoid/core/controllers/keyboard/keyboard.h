@@ -10,8 +10,8 @@
 #include "../../../models/ball/ball.h"
 
 const enum ControlKeys {
-	KEY_UP, KEY_DOWN, KEY_LEFT, KEY_RIGHT
+	KEY_UP, KEY_DOWN, KEY_LEFT, KEY_RIGHT, KEY_SPACE
 };
 
 status handle_player_movement(Allegro *allegro, bool keys[], Player *player);
-status handle_keyboard(Allegro *allegro, bool keys[], ALLEGRO_EVENT event, Player *player);
+status handle_keyboard(Allegro *allegro, bool keys[], ALLEGRO_EVENT event, Player *player, Ball *ball);
