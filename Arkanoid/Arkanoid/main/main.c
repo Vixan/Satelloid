@@ -6,6 +6,7 @@
 status main(int argc, char **argv) {
 	Allegro *allegro = allegro_create();
 	status allegro_status = STATUS_OK_ALLEGRO;
+	ALLEGRO_BITMAP *icon = NULL;
 
 	if (!allegro) {
 		printf("Could not initialize Allegro");
@@ -19,8 +20,13 @@ status main(int argc, char **argv) {
 		allegro_wait_keypress(allegro->event_queue);
 	}
 
+	al_set_window_title(allegro->display, GAME_NAME);
+	icon = al_load_bitmap(ALLEGRO_WINDOW_ICON);
+	al_set_display_icon(allegro->display, icon);
+
 	show_menu(allegro);
 
+	al_destroy_bitmap(icon);
 	allegro_destroy(allegro);
 
 	return STATUS_OK_EXIT;

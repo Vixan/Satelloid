@@ -50,6 +50,7 @@ static const float FPS = 60.0;
 static const int SCREEN_WIDTH = 1280;
 static const int SCREEN_HEIGHT = 720;
 static const int WINDOW_MODE = ALLEGRO_WINDOWED;
+static const char *ALLEGRO_WINDOW_ICON = "./assets/images/misc/logo.png";
 static const char *ALLEGRO_FONT_FILE = "./assets/fonts/prime.otf";
 static const char *ALLEGRO_BACKGROUND_SAMPLE_FILE = "./assets/music/starlight-looping.ogg";
 static const char *ALLEGRO_GAMEOVER_SAMPLE_FILE = "./assets/music/security-breach.ogg";
