@@ -291,3 +291,46 @@ status show_credits(Allegro *allegro) {
 
 	return STATUS_OK_SETVALUE;
 }
+
+/**
+ * Show the Game Over screen with the accumulated score.
+ */
+status show_game_over(Allegro *allegro, ALLEGRO_FONT *game_over_font, int final_score, bool win) {
+	char *final_message = malloc(SCORE_MAX_DIGITS + 50);
+	sprintf(final_message, "%d", final_score);
+	strcat(final_message, " points");
+
+	al_clear_to_color(al_color_html(ALLEGRO_COLOR_DARK));
+	al_draw_text(
+		game_over_font,
+		al_color_html(win ? ALLEGRO_COLOR_TERNARY : ALLEGRO_COLOR_ACCENT1),
+		SCREEN_WIDTH / 2,
+		SCREEN_HEIGHT / 2 - ALLEGRO_FONT_SIZE_HUGE,
+		ALLEGRO_ALIGN_CENTRE,
+		win ? "SATELLITE MISSION SUCCESS" : "SATELLITE MISSION FAILURE"
+	);
+
+	al_draw_text(
+		allegro->font,
+		al_color_html(ALLEGRO_COLOR_TEXT),
+		SCREEN_WIDTH / 2,
+		SCREEN_HEIGHT / 2,
+		ALLEGRO_ALIGN_CENTRE,
+		final_message
+	);
+
+	al_draw_text(
+		allegro->font,
+		al_color_html(ALLEGRO_COLOR_DARK_SECONDARY),
+		SCREEN_WIDTH / 2,
+		SCREEN_HEIGHT - 2 * ALLEGRO_FONT_SIZE_HUGE,
+		ALLEGRO_ALIGN_CENTRE,
+		"Press ESC to return to MENU"
+	);
+
+	write_score(player_name, final_score);
+
+	al_flip_display();
+
+	return STATUS_OK_SETVALUE;
+}

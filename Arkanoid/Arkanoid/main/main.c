@@ -49,7 +49,7 @@ status show_menu(Allegro *allegro) {
 	while (menu_choice != MENU_EXIT) {
 		menu_choice = handle_menu(allegro);
 		if (menu_choice == MENU_START) {
-			game_status = start_game(allegro, (bool(*)[COLS])LEVEL_2);
+			game_status = start_game(allegro, (bool(*)[COLS])LEVEL_1);
 
 			if (game_status == STATUS_ERROR_EXIT) {
 				return STATUS_ERROR_EXIT;
@@ -60,51 +60,21 @@ status show_menu(Allegro *allegro) {
 			}
 
 			if (game_status == STATUS_GAME_OVER) {
-				char *final_message = malloc(SCORE_MAX_DIGITS + 50);
-				sprintf(final_message, "%d", final_score);
-				strcat(final_message, " points");
-
-				al_clear_to_color(al_color_html(ALLEGRO_COLOR_DARK));
-				al_draw_text(
-					game_over_font,
-					al_color_html(ALLEGRO_COLOR_ACCENT1),
-					SCREEN_WIDTH / 2,
-					SCREEN_HEIGHT / 2 - ALLEGRO_FONT_SIZE_HUGE,
-					ALLEGRO_ALIGN_CENTRE,
-					"SATELLITE MISSION OVER"
-				);
-
-				al_draw_text(
-					allegro->font,
-					al_color_html(ALLEGRO_COLOR_TEXT),
-					SCREEN_WIDTH / 2,
-					SCREEN_HEIGHT / 2,
-					ALLEGRO_ALIGN_CENTRE,
-					final_message
-				);
-
-				al_draw_text(
-					allegro->font,
-					al_color_html(ALLEGRO_COLOR_DARK_SECONDARY),
-					SCREEN_WIDTH / 2,
-					SCREEN_HEIGHT - 2 * ALLEGRO_FONT_SIZE_HUGE,
-					ALLEGRO_ALIGN_CENTRE,
-					"Press ESC to return to MENU"
-				);
-
+				show_game_over(allegro, game_over_font, final_score, false);
 				al_stop_sample(&background_sample_id);
 				al_play_sample(game_over_sample, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_LOOP, &game_over_sample_id);
 
-				write_score(player_name, final_score);
-
-				al_flip_display();
 				allegro_wait_keypress(allegro->event_queue);
-				al_destroy_font(game_over_font);
 				al_stop_sample(&game_over_sample_id);
 				al_destroy_sample(game_over_sample);
-
-				show_menu(allegro);
 			}
+			if (game_status == STATUS_GAME_WON) {
+				show_game_over(allegro, game_over_font, final_score, true);
+				allegro_wait_keypress(allegro->event_queue);
+				al_stop_sample(&background_sample_id);
+			}
+
+			show_menu(allegro);
 
 			break;
 		}
@@ -127,6 +97,8 @@ status show_menu(Allegro *allegro) {
 			allegro_wait_keypress(allegro->event_queue);
 		}
 	}
+
+	al_destroy_font(game_over_font);
 
 	return STATUS_OK_EXIT;
 }
@@ -217,6 +189,10 @@ status start_game(Allegro *allegro, bool level[ROWS][COLS]) {
 		if (event.type == ALLEGRO_EVENT_TIMER) {
 			if (get_player_hp(player) == 0) {
 				game_status = STATUS_GAME_OVER;
+				break;
+			}
+			if (get_player_score(player) == blocks_max * BLOCK_POINTS) {
+				game_status = STATUS_GAME_WON;
 				break;
 			}
 

@@ -55,3 +55,4 @@ int count_scoreboard_records();
 status show_scoreboard(Allegro *allegro, Score *scoreboard, int total_records);
 
 status show_credits(Allegro *allegro);
+status show_game_over(Allegro *allegro, ALLEGRO_FONT *game_over_font, int final_score, bool win);
