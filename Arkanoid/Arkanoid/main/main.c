@@ -100,6 +100,20 @@ status show_menu(Allegro *allegro) {
 
 			break;
 		}
+
+		if (menu_choice == MENU_SCOREBOARD) {
+			int total_records = count_scoreboard_records();
+			Score *scoreboard = malloc(sizeof(Score) * total_records);
+
+			scoreboard = read_scoreboard(scoreboard);
+			if (scoreboard) {
+				show_scoreboard(allegro, scoreboard, total_records);
+				allegro_wait_keypress(allegro->event_queue);
+			}
+
+			free(scoreboard);
+			scoreboard = NULL;
+		}
 	}
 
 	return STATUS_OK_EXIT;

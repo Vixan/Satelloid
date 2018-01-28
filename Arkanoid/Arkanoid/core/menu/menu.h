@@ -26,5 +26,27 @@ static const char *menu_options[MENU_EXIT + 1] = {
 	"EXIT GAME"
 };
 
+typedef struct Score {
+	char *name;
+	char *date;
+	char *score;
+} Score;
+
+static const char *SCOREBOARD_FILE_NAME = "./globals/scoreboard.csv";
+#define SCOREBOARD_MAX_RECORDS 32
+#define SCOREBOARD_MAX_FIELDS 3
+#define SCOREBOARD_FIELD_SIZE 256
+
+static const char *SCOREBOARD_FIELDS[SCOREBOARD_MAX_FIELDS] = {
+	"NAME",
+	"DATE",
+	"SCORE"
+};
+
 status display_menu(Allegro *allegro, int choice, ALLEGRO_FONT *font_dev, ALLEGRO_FONT *font_game);
 int handle_menu(Allegro *allegro);
+
+status split_string(char *arr[], char* line, char *separator);
+Score *read_scoreboard(Score *score);
+status show_scoreboard(Allegro *allegro, Score *scoreboard, int total_records);
+int count_scoreboard_records();

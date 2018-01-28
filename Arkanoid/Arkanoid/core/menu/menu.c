@@ -112,3 +112,122 @@ int handle_menu(Allegro *allegro) {
 
 	return selected;
 }
+
+/**
+ * Split a string with the specified separator characters.
+ */
+status split_string(char *arr[], char* line, char *separator) {
+	char *ch = strtok(line, separator);
+
+	for (int i = 0; ch != NULL; i++) {
+		arr[i] = ch;
+		ch = strtok(NULL, separator);
+
+	}
+
+	return STATUS_OK_SETVALUE;
+}
+
+/**
+ * Read the Game Scoreboard from the .CSV file.
+ */
+Score *read_scoreboard(Score *score) {
+	FILE *file = NULL;
+	char *buffer = malloc(SCOREBOARD_FIELD_SIZE);
+	char *line = NULL;
+	char *split_line[SCOREBOARD_MAX_FIELDS];
+	char *separator = ";";
+	Score *head = NULL;
+
+	if (!(file = fopen(SCOREBOARD_FILE_NAME, "r"))) {
+		return NULL;
+	}
+
+	for (int i = 0; fgets(buffer, SCOREBOARD_FIELD_SIZE, file); i++) {
+		line = _strdup(buffer);
+		split_string(split_line, line, separator);
+
+		score[i].name = malloc(strlen(split_line[0]) + 1);
+		score[i].date = malloc(strlen(split_line[1]) + 1);
+		score[i].score = malloc(strlen(split_line[2]) + 1);
+
+		strcpy(score[i].name, split_line[0]);
+		strcpy(score[i].date, split_line[1]);
+		strcpy(score[i].score, split_line[2]);
+	}
+
+	free(buffer);
+	buffer = NULL;
+	fclose(file);
+
+	return score;
+}
+
+/**
+ * Display the scoreboard read from the file.
+ */
+status show_scoreboard(Allegro *allegro, Score *scoreboard, int total_records) {
+	al_clear_to_color(al_color_html(ALLEGRO_COLOR_DARK));
+
+	for (int i = 0; i < SCOREBOARD_MAX_FIELDS; i++) {
+		al_draw_text(
+			allegro->font,
+			al_color_html(ALLEGRO_COLOR_PRIMARY),
+			i * (ALLEGRO_FONT_SIZE_HUGE + 256) + ALLEGRO_FONT_SIZE_NORMAL,
+			ALLEGRO_FONT_SIZE_NORMAL,
+			ALLEGRO_ALIGN_LEFT,
+			SCOREBOARD_FIELDS[i]
+		);
+	}
+
+	for (int i = 0; i < total_records; i++) {
+		al_draw_text(
+			allegro->font,
+			al_color_html(ALLEGRO_COLOR_DEFAULT),
+			ALLEGRO_FONT_SIZE_NORMAL,
+			i * ALLEGRO_FONT_SIZE_NORMAL + 3 * ALLEGRO_FONT_SIZE_NORMAL,
+			ALLEGRO_ALIGN_LEFT,
+			scoreboard[i].name
+		);
+		al_draw_text(
+			allegro->font,
+			al_color_html(ALLEGRO_COLOR_TEXT),
+			(ALLEGRO_FONT_SIZE_HUGE + 256) + ALLEGRO_FONT_SIZE_NORMAL,
+			i * ALLEGRO_FONT_SIZE_NORMAL + 3 * ALLEGRO_FONT_SIZE_NORMAL,
+			ALLEGRO_ALIGN_LEFT,
+			scoreboard[i].date
+		);
+		al_draw_text(
+			allegro->font,
+			al_color_html(ALLEGRO_COLOR_TEXT),
+			2 * (ALLEGRO_FONT_SIZE_HUGE + 256) + ALLEGRO_FONT_SIZE_NORMAL,
+			i * ALLEGRO_FONT_SIZE_NORMAL + 3 * ALLEGRO_FONT_SIZE_NORMAL,
+			ALLEGRO_ALIGN_LEFT,
+			scoreboard[i].score
+		);
+	}
+
+
+	al_flip_display();
+
+	return STATUS_OK_SETVALUE;
+}
+
+/**
+ * Retrieve the total number of records from the file.
+ */
+int count_scoreboard_records() {
+	FILE *file = NULL;
+	char *buffer = malloc(SCOREBOARD_FIELD_SIZE);
+	int total_records = 0;
+
+	if (!(file = fopen(SCOREBOARD_FILE_NAME, "r"))) {
+		return 0;
+	}
+
+	while (fgets(buffer, 256, file)) {
+		total_records++;
+	}
+
+	return total_records;
+}
