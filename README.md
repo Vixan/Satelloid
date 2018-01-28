@@ -1,6 +1,6 @@
-# Debug
+# Satelloid
 
-**Debug** is an Arkanoid-like 2D arcade game with minimalistic visuals and satisfying gameplay.
+**Satelloid** is an Arkanoid-like 2D arcade game with minimalistic neon visuals and satisfying gameplay.
 
 ## Getting Started
 
@@ -16,8 +16,6 @@ What things you need to install the software and how to install them.
   https://git-scm.com/downloads
 
 ### Installing
-
-A step by step series of examples that tell you have to get a development env running
 
 Clone this repository
 
@@ -38,26 +36,6 @@ Next, just run the Local Windows Debugger or hit **CTRL-SHIFT-B** and **CTRL-F5*
 
 No tests yet.
 
-### Break down into end to end tests
-
-TODO
-
-```
-example running test
-```
-
-### And coding style tests
-
-Explain what these tests test and why
-
-```
-Give an example
-```
-
-## Deployment
-
-Add additional notes about how to deploy this on a live system
-
 ## Built With
 
 * [Visual Studio Community](https://www.visualstudio.com/vs/community/) - The IDE
@@ -65,15 +43,15 @@ Add additional notes about how to deploy this on a live system
 
 ## Authors
 
-* **Duca Vitalie-Alexandru** - *Initial work* - [Vixan](https://gitlab.com/Vixan)
+* **Duca Vitalie-Alexandru** - *Development* - [Vixan](https://gitlab.com/Vixan)
 
 ## License
 
 This project is not licensed. It is a personal project.
 
-## Acknowledgments
+## Acknowledgments and credits
 
 * Mike Keig, 2D Game Development Course using Allegro
   http://fixbyproximity.com/2d-game-development-course/
-* etc
+* Eric Matyas, http://99sounds.org/, royalty-free music used in the background
 
