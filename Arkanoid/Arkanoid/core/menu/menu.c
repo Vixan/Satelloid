@@ -164,10 +164,38 @@ Score *read_scoreboard(Score *score) {
 }
 
 /**
+* Write the current obtained score to the Scoreboard .CSV file.
+*/
+status write_score(char *player_name, int score) {
+	FILE *file = NULL;
+	time_t current_time = time(NULL);
+	struct tm *tm = localtime(&current_time);
+	int buffer_size = 17;
+	char *date = malloc(buffer_size);
+	strftime(date, buffer_size, "%d.%m.%Y %H:%M", tm);
+
+	if (!(file = fopen(SCOREBOARD_FILE_NAME, "a"))) {
+		return STATUS_ERROR_FILE;
+	}
+
+	fprintf(file, "\n%s;", player_name);
+	fprintf(file, "%s;", date);
+	fprintf(file, "%d", score);
+
+	fclose(file);
+
+	return STATUS_OK_SETVALUE;
+}
+
+/**
  * Display the scoreboard read from the file.
  */
 status show_scoreboard(Allegro *allegro, Score *scoreboard, int total_records) {
 	al_clear_to_color(al_color_html(ALLEGRO_COLOR_DARK));
+
+	if (!scoreboard || !allegro) {
+		return STATUS_ERROR_SETVALUE;
+	}
 
 	for (int i = 0; i < SCOREBOARD_MAX_FIELDS; i++) {
 		al_draw_text(
@@ -206,7 +234,6 @@ status show_scoreboard(Allegro *allegro, Score *scoreboard, int total_records) {
 			scoreboard[i].score
 		);
 	}
-
 
 	al_flip_display();
 

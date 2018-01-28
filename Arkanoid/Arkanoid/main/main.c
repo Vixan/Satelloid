@@ -89,6 +89,8 @@ status show_menu(Allegro *allegro) {
 				al_stop_sample(&background_sample_id);
 				al_play_sample(game_over_sample, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_LOOP, &game_over_sample_id);
 
+				write_score(player_name, final_score);
+
 				al_flip_display();
 				allegro_wait_keypress(allegro->event_queue);
 				al_destroy_font(game_over_font);
@@ -112,7 +114,6 @@ status show_menu(Allegro *allegro) {
 			}
 
 			free(scoreboard);
-			scoreboard = NULL;
 		}
 	}
 

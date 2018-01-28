@@ -6,3 +6,4 @@
 
 static const unsigned int SCORE_MAX_DIGITS = 16;
 static unsigned int final_score = 0;
+static char *player_name = "Vixan";

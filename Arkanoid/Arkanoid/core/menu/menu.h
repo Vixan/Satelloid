@@ -5,6 +5,7 @@
 #include <allegro5/allegro_font.h>
 #include <allegro5/allegro_primitives.h>
 #include <allegro5/allegro_image.h>
+#include <time.h>
 
 #include "../allegro/allegro.h"
 #include "../../globals/status.h"
@@ -48,5 +49,6 @@ int handle_menu(Allegro *allegro);
 
 status split_string(char *arr[], char* line, char *separator);
 Score *read_scoreboard(Score *score);
+status write_score(char *player_name, int score);
 status show_scoreboard(Allegro *allegro, Score *scoreboard, int total_records);
 int count_scoreboard_records();
