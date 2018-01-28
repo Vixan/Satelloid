@@ -266,13 +266,13 @@ status show_credits(Allegro *allegro) {
 	al_clear_to_color(al_color_html(ALLEGRO_COLOR_DARK));
 
 	char *credits_text[SCOREBOARD_FIELD_SIZE] = {
-		"Developer",
+		"DEVELOPER",
 		GAME_DEVELOPER_NAME,
-		"Music",
+		"MUSIC",
 		GAME_MUSIC_CREDITS,
-		"Development Environment",
+		"DEVELOPMENT ENVIRONMENT",
 		GAME_IDE,
-		"Game Library",
+		"GAME LIBRARY",
 		GAME_LIBRARY
 	};
 
@@ -281,7 +281,7 @@ status show_credits(Allegro *allegro) {
 			allegro->font,
 			al_color_html(i % 2 == 0 ? ALLEGRO_COLOR_PRIMARY : ALLEGRO_COLOR_TEXT),
 			i % 2 == 0 ? ALLEGRO_FONT_SIZE_NORMAL: 8 * ALLEGRO_FONT_SIZE_HUGE + ALLEGRO_FONT_SIZE_NORMAL,
-			i % 2 == 0 ? i * ALLEGRO_FONT_SIZE_NORMAL + ALLEGRO_FONT_SIZE_NORMAL : i * ALLEGRO_FONT_SIZE_NORMAL,
+			i % 2 == 0 ? i * ALLEGRO_FONT_SIZE_SMALL + ALLEGRO_FONT_SIZE_NORMAL : i * ALLEGRO_FONT_SIZE_SMALL + ALLEGRO_FONT_SIZE_SMALL / 2,
 			ALLEGRO_ALIGN_LEFT,
 			credits_text[i]
 		);

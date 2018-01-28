@@ -264,3 +264,31 @@ status draw_ball(Ball *ball) {
 
 	return STATUS_OK_SETVALUE;
 }
+
+/**
+* Run the animation of the Ball.
+*/
+bool animate_ball(Ball *ball) {
+	if (!ball) {
+		return false;
+	}
+
+	unsigned int frame_max = get_sprite_max_frame(get_ball_sprite(ball));
+
+	if (get_sprite_current_frame(get_ball_sprite(ball)) >= frame_max) {
+		return true;
+	}
+
+	set_sprite_frame_count(get_ball_sprite(ball), get_sprite_frame_count(get_ball_sprite(ball)) + 1);
+	if (get_sprite_frame_count(get_ball_sprite(ball)) >= 4) {
+		set_ball_current_frame(ball, get_ball_current_frame(ball) + 1);
+
+		set_sprite_frame_count(get_ball_sprite(ball), SPRITE_FRAME_CURRENT_DEFAULT);
+
+		if (get_sprite_current_frame(get_ball_sprite(ball)) >= get_sprite_max_frame(get_ball_sprite(ball))) {
+			set_ball_current_frame(ball, SPRITE_FRAME_CURRENT_DEFAULT);
+		}
+	}
+
+	return false;
+}

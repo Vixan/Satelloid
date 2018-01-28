@@ -49,14 +49,14 @@ status show_menu(Allegro *allegro) {
 	while (menu_choice != MENU_EXIT) {
 		menu_choice = handle_menu(allegro);
 		if (menu_choice == MENU_START) {
-			game_status = start_game(allegro, (bool(*)[COLS])LEVEL_1);
+			game_status = start_game(allegro, (bool(*)[COLS])LEVEL_2);
 
 			if (game_status == STATUS_ERROR_EXIT) {
 				return STATUS_ERROR_EXIT;
 			}
 
 			if (game_status == STATUS_OK_EXIT) {
-				show_menu(allegro);
+				al_stop_sample(&background_sample_id);
 			}
 
 			if (game_status == STATUS_GAME_OVER) {
@@ -148,7 +148,7 @@ status start_game(Allegro *allegro, bool level[ROWS][COLS]) {
 
 	status game_status = STATUS_GAME_RUNNING;
 	bool keys[4] = { false, false, false, false };
-	bool blocks_level[ROWS][COLS];
+	bool blocks_level[ROWS][COLS] = { 0 };
 	ALLEGRO_FONT *score_font = al_load_font(ALLEGRO_FONT_FILE, 128, 0);
 	ALLEGRO_SAMPLE *effect_sample = al_load_sample(ALLEGRO_EFFECT_SAMPLE_FILE);
 	ALLEGRO_BITMAP *player_hp_image = al_load_bitmap(PLAYER_HP_IMAGE_PATH);
@@ -168,6 +168,7 @@ status start_game(Allegro *allegro, bool level[ROWS][COLS]) {
 		}
 		if (ball) {
 			draw_ball(ball);
+			animate_ball(ball);
 		}
 
 		for (int i = 0; i < blocks_max; i++) {

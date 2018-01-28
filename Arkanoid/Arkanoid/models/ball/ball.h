@@ -49,3 +49,4 @@ status set_ball_type(Ball *ball, unsigned int type);
 unsigned int get_ball_type(Ball *ball);
 
 status draw_ball(Ball *ball);
+bool animate_ball(Ball *ball);
