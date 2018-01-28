@@ -26,15 +26,21 @@ git clone https://gitlab.com/Vixan/arkanoid.git
 Open Arkanoid solution using VS Community
 
 ```
-cd start Arkanoid
+cd Arkanoid
 start Arkanoid.sln
+```
+Or just install using **Satellite Installer.exe**.
+
+```
+cd Arkanoid
+Satellite Installer.exe
 ```
 
 Next, just run the Local Windows Debugger or hit **CTRL-SHIFT-B** and **CTRL-F5**
 
 ## Running the tests
 
-No tests yet.
+No tests yet. Terrible, yes, I know...
 
 ## Built With
 
