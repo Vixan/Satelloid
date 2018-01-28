@@ -48,7 +48,10 @@ status display_menu(Allegro *allegro, int choice, ALLEGRO_FONT *font_dev, ALLEGR
 int handle_menu(Allegro *allegro);
 
 status split_string(char *arr[], char* line, char *separator);
+
 Score *read_scoreboard(Score *score);
 status write_score(char *player_name, int score);
-status show_scoreboard(Allegro *allegro, Score *scoreboard, int total_records);
 int count_scoreboard_records();
+status show_scoreboard(Allegro *allegro, Score *scoreboard, int total_records);
+
+status show_credits(Allegro *allegro);

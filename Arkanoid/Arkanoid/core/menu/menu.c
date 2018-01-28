@@ -258,3 +258,36 @@ int count_scoreboard_records() {
 
 	return total_records;
 }
+
+/**
+ * Show game credits.
+ */
+status show_credits(Allegro *allegro) {
+	al_clear_to_color(al_color_html(ALLEGRO_COLOR_DARK));
+
+	char *credits_text[SCOREBOARD_FIELD_SIZE] = {
+		"Developer",
+		GAME_DEVELOPER_NAME,
+		"Music",
+		GAME_MUSIC_CREDITS,
+		"Development Environment",
+		GAME_IDE,
+		"Game Library",
+		GAME_LIBRARY
+	};
+
+	for (int i = 0; i < 8; i++) {
+		al_draw_text(
+			allegro->font,
+			al_color_html(i % 2 == 0 ? ALLEGRO_COLOR_PRIMARY : ALLEGRO_COLOR_TEXT),
+			i % 2 == 0 ? ALLEGRO_FONT_SIZE_NORMAL: 8 * ALLEGRO_FONT_SIZE_HUGE + ALLEGRO_FONT_SIZE_NORMAL,
+			i % 2 == 0 ? i * ALLEGRO_FONT_SIZE_NORMAL + ALLEGRO_FONT_SIZE_NORMAL : i * ALLEGRO_FONT_SIZE_NORMAL,
+			ALLEGRO_ALIGN_LEFT,
+			credits_text[i]
+		);
+	}
+
+	al_flip_display();
+
+	return STATUS_OK_SETVALUE;
+}

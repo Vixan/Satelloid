@@ -121,6 +121,11 @@ status show_menu(Allegro *allegro) {
 
 			free(scoreboard);
 		}
+
+		if (menu_choice == MENU_CREDTS) {
+			show_credits(allegro);
+			allegro_wait_keypress(allegro->event_queue);
+		}
 	}
 
 	return STATUS_OK_EXIT;
